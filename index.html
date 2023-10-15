@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CommerceFlow - Premium Consumer Tech Store. Shop headphones, smartphones, smartwatches, laptops, and more.">
+  <title>CommerceFlow | Premium Tech E-Commerce Storefront</title>
+
+  <!-- Bootstrap 5.3.2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="src/css/style.css">
+</head>
+
+<body>
+
+  <!-- NAVIGATION NAVBAR START -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top cf-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="image/logo.png" width="34" height="34" alt="CommerceFlow logo">
+        <span>CommerceFlow</span>
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars-staggered text-dark"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Search bar inside collapse navigation -->
+        <form class="d-flex mx-auto search-container my-3 my-lg-0 js-search-form">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input class="form-control search-input js-search-input w-100" type="search" placeholder="Search headphones, smartwatches, laptops..." aria-label="Search">
+        </form>
+
+        <!-- Right Side Nav controls -->
+        <div class="d-flex align-items-center gap-3 justify-content-end">
+          <a href="catalog.html" class="nav-link fw-semibold px-2">Catalog</a>
+          
+          <a href="dashboard.html?tab=wishlist" class="nav-action-btn" aria-label="Wishlist">
+            <i class="fa-regular fa-heart fa-lg"></i>
+            <span class="badge-count js-wishlist-count" style="display: none;">0</span>
+          </a>
+
+          <a href="cart.html" class="nav-action-btn" aria-label="Shopping Cart">
+            <i class="fa-solid fa-bag-shopping fa-lg"></i>
+            <span class="badge-count js-cart-count" style="display: none;">0</span>
+          </a>
+
+          <!-- Session dynamic login wrapper -->
+          <div class="js-auth-nav-container">
+            <!-- Populated dynamically by app.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- NAVIGATION NAVBAR END -->
+
+  <!-- HERO BANNER CAROUSEL START -->
+  <header class="container my-4">
+    <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=1600&auto=format&fit=crop&q=80" class="d-block w-100" alt="ANC Headphones slide">
+          <div class="hero-content">
+            <span class="hero-tag">Noise-Cancelling Launch</span>
+            <h1 class="hero-title">Acoustic Precision</h1>
+            <p class="hero-desc">Experience next-level audio isolation with deep base and long-lasting wireless comfort.</p>
+            <a href="catalog.html?category=Audio" class="btn btn-primary btn-lg">Shop Headsets <i class="fa-solid fa-arrow-right ms-2"></i></a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=1600&auto=format&fit=crop&q=80" class="d-block w-100" alt="Titanium Smartphones slide">
+          <div class="hero-content">
+            <span class="hero-tag">Exclusive Release</span>
+            <h1 class="hero-title">Titanium Strength</h1>
+            <p class="hero-desc">Upgrade to high-performance optics and hyper-detailed displays on the next generation of mobile devices.</p>
+            <a href="catalog.html?category=Mobile" class="btn btn-primary btn-lg">Explore Phones <i class="fa-solid fa-arrow-right ms-2"></i></a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=1600&auto=format&fit=crop&q=80" class="d-block w-100" alt="Premium Smartwatch slide">
+          <div class="hero-content">
+            <span class="hero-tag">Fitness & Adventure</span>
+            <h1 class="hero-title">Keep Pace</h1>
+            <p class="hero-desc">Accurate biometric metrics, sleep coaching, and durable, swimmable dials that track your adventure.</p>
+            <a href="catalog.html?category=Wearables" class="btn btn-primary btn-lg">Discover Wearables <i class="fa-solid fa-arrow-right ms-2"></i></a>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </header>
+  <!-- HERO BANNER CAROUSEL END -->
+
+  <!-- CATEGORIES GRID START -->
+  <section class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">Shop by Category</h2>
+      <a href="catalog.html" class="btn btn-link text-decoration-none">View All <i class="fa-solid fa-angle-right"></i></a>
+    </div>
+    <div class="row g-4">
+      <div class="col-6 col-md-3">
+        <a href="catalog.html?category=Laptops" class="category-card d-block">
+          <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&auto=format&fit=crop&q=80" alt="Laptops Category">
+          <div class="category-overlay">
+            <h4 class="mb-0 fs-5">Laptops</h4>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="catalog.html?category=Mobile" class="category-card d-block">
+          <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&auto=format&fit=crop&q=80" alt="Mobile Category">
+          <div class="category-overlay">
+            <h4 class="mb-0 fs-5">Smartphones</h4>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="catalog.html?category=Audio" class="category-card d-block">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&auto=format&fit=crop&q=80" alt="Audio Category">
+          <div class="category-overlay">
+            <h4 class="mb-0 fs-5">Audio Devices</h4>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="catalog.html?category=Wearables" class="category-card d-block">
+          <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400&auto=format&fit=crop&q=80" alt="Wearables Category">
+          <div class="category-overlay">
+            <h4 class="mb-0 fs-5">Wearables</h4>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- CATEGORIES GRID END -->
+
+  <!-- RETAIL VALUE SERVICES START -->
+  <section class="container my-5">
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-box">
+          <div class="feature-icon-wrapper"><i class="fa-solid fa-truck-fast"></i></div>
+          <div>
+            <h3 class="feature-title">Free Shipping</h3>
+            <p class="feature-desc">On all orders over $150.00</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-box">
+          <div class="feature-icon-wrapper"><i class="fa-solid fa-rotate-left"></i></div>
+          <div>
+            <h3 class="feature-title">30-Day Returns</h3>
+            <p class="feature-desc">Hassle-free return policy</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-box">
+          <div class="feature-icon-wrapper"><i class="fa-solid fa-shield-halved"></i></div>
+          <div>
+            <h3 class="feature-title">Secure Payments</h3>
+            <p class="feature-desc">Fully encrypted checkout flows</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-box">
+          <div class="feature-icon-wrapper"><i class="fa-solid fa-headset"></i></div>
+          <div>
+            <h3 class="feature-title">Support 24/7</h3>
+            <p class="feature-desc">Contact us via chat anytime</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- RETAIL VALUE SERVICES END -->
+
+  <!-- TRENDING FEATURED PRODUCTS START -->
+  <section class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2 class="mb-1">Trending Products</h2>
+        <p class="text-muted mb-0 small">The most popular consumer choices today</p>
+      </div>
+      <div class="nav nav-pills gap-2" id="trend-tabs" role="tablist">
+        <button class="nav-link active rounded-pill js-tab-filter" data-filter="all">All</button>
+        <button class="nav-link rounded-pill js-tab-filter" data-filter="Audio">Audio</button>
+        <button class="nav-link rounded-pill js-tab-filter" data-filter="Mobile">Phones</button>
+        <button class="nav-link rounded-pill js-tab-filter" data-filter="Laptops">Laptops</button>
+      </div>
+    </div>
+
+    <!-- Product list loading container -->
+    <div class="row g-4" id="homepage-products-container">
+      <!-- Injected dynamically by home script -->
+    </div>
+  </section>
+  <!-- TRENDING FEATURED PRODUCTS END -->
+
+  <!-- NEWSLETTER SIGNUP START -->
+  <section class="container my-5">
+    <div class="newsletter-section text-center p-5">
+      <div class="max-width-550 mx-auto px-lg-5">
+        <i class="fa-solid fa-paper-plane fa-3x text-primary mb-3"></i>
+        <h2 class="newsletter-title mb-2">Subscribe to our newsletter</h2>
+        <p class="text-slate-200 mb-4">Get early updates on fresh arrivals, sales alerts, and exclusive coupon codes!</p>
+        <form class="row justify-content-center g-2 js-newsletter-form">
+          <div class="col-sm-8">
+            <input type="email" class="form-control rounded-pill py-2.5 px-4 js-news-email" placeholder="Enter your email address" required>
+          </div>
+          <div class="col-sm-4">
+            <button class="btn btn-primary rounded-pill w-100 py-2.5" type="submit">Subscribe</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <!-- NEWSLETTER SIGNUP END -->
+
+  <!-- FOOTER START -->
+  <footer class="footer py-5 mt-auto">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="navbar-brand text-white mb-3 d-inline-flex align-items-center gap-2" href="#">
+            <img src="image/logo.png" width="30" height="30" alt="logo">
+            <span>CommerceFlow</span>
+          </a>
+          <p class="small text-muted mt-2">CommerceFlow is a premium demo e-commerce store built to showcase state-of-the-art layout aesthetics, client-side caching, and search sorting workflows.</p>
+          <div class="d-flex gap-3 mt-4">
+            <a href="#" class="text-muted"><i class="fa-brands fa-facebook fa-lg"></i></a>
+            <a href="#" class="text-muted"><i class="fa-brands fa-twitter fa-lg"></i></a>
+            <a href="#" class="text-muted"><i class="fa-brands fa-instagram fa-lg"></i></a>
+            <a href="#" class="text-muted"><i class="fa-brands fa-linkedin fa-lg"></i></a>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2 offset-lg-1">
+          <h5>Shop Pages</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="catalog.html">Full Catalog</a></li>
+            <li><a href="catalog.html?category=Laptops">Laptops</a></li>
+            <li><a href="catalog.html?category=Mobile">Smartphones</a></li>
+            <li><a href="catalog.html?category=Audio">Audio Devices</a></li>
+            <li><a href="catalog.html?category=Wearables">Wearables</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2">
+          <h5>User Account</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="dashboard.html">My Dashboard</a></li>
+            <li><a href="dashboard.html?tab=orders">Order History</a></li>
+            <li><a href="dashboard.html?tab=wishlist">Wishlist</a></li>
+            <li><a href="auth.html">Register / Login</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <h5>Help & Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#">Shipping FAQ</a></li>
+            <li><a href="#">Returns Policy</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-4 border-slate-700">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small">
+        <p class="mb-0">&copy; 2024 CommerceFlow, Inc. All rights reserved.</p>
+        <p class="mb-0">Created by <a href="https://github.com/Self-Lakshh" target="_blank" class="text-white text-decoration-underline">Self-Lakshh</a></p>
+      </div>
+    </div>
+  </footer>
+  <!-- FOOTER END -->
+
+  <!-- Bootstrap 5.3.2 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <!-- Core App Scripts (Load Database and Helpers first) -->
+  <script src="src/js/products.js"></script>
+  <script src="src/js/ui.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/wishlist.js"></script>
+  <script src="src/js/auth.js"></script>
+  <script src="src/js/checkout.js"></script>
+  <script src="src/js/app.js"></script>
+
+  <!-- Homepage-specific Rendering Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('homepage-products-container');
+      const tabs = document.querySelectorAll('.js-tab-filter');
+      
+      // Load 8 products
+      function renderHomeProducts(categoryFilter = 'all') {
+        // Load skeleton loader first to simulate network delay
+        window.UiManager.renderSkeletons(container, 8);
+        
+        setTimeout(() => {
+          let items = window.PRODUCTS_DB;
+          if (categoryFilter !== 'all') {
+            items = items.filter(p => p.category === categoryFilter);
+          }
+          
+          // Slice top 8 featured
+          const featured = items.slice(0, 8);
+          
+          if (featured.length === 0) {
+            window.UiManager.renderEmptyState(container, "No trending items found for this category.", "fa-box-open");
+            return;
+          }
+
+          let html = "";
+          featured.forEach(product => {
+            const isWish = window.WishlistManager.isInWishlist(product.id);
+            const wishClass = isWish ? 'active' : '';
+            const wishIcon = isWish ? '<i class="fa-solid fa-heart"></i>' : '<i class="fa-regular fa-heart"></i>';
+            const priceHtml = product.oldPrice 
+              ? `$${product.price} <span class="old-price">$${product.oldPrice}</span>`
+              : `$${product.price}`;
+
+            const badgeHtml = product.oldPrice 
+              ? `<span class="product-badge sale">Sale</span>`
+              : `<span class="product-badge">New</span>`;
+
+            html += `
+              <div class="col-6 col-md-4 col-lg-3 mb-4">
+                <article class="product-card">
+                  <div class="product-img-wrapper">
+                    ${badgeHtml}
+                    <button class="wishlist-btn js-toggle-wishlist ${wishClass}" data-id="${product.id}" aria-label="Add to Wishlist">
+                      ${wishIcon}
+                    </button>
+                    <a href="product.html?id=${product.id}">
+                      <img src="${product.image}" alt="${product.title}" loading="lazy">
+                    </a>
+                  </div>
+                  <div class="product-info">
+                    <span class="product-category">${product.category}</span>
+                    <a href="product.html?id=${product.id}"><h3 class="product-title">${product.title}</h3></a>
+                    <div class="rating-stars">
+                      ${window.UiManager.getStarsHtml(product.rating)}
+                      <span class="rating-count">(${product.reviews.length})</span>
+                    </div>
+                    <div class="product-footer">
+                      <span class="product-price">${priceHtml}</span>
+                      <button class="add-cart-icon-btn js-add-to-cart" data-id="${product.id}" aria-label="Add to Cart">
+                        <i class="fa-solid fa-cart-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            `;
+          });
+          container.innerHTML = html;
+        }, 600); // 600ms simulated delay
+      }
+
+      // Initialize tabs click
+      tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          renderHomeProducts(tab.dataset.filter);
+        });
+      });
+
+      // Handle newsletter submit
+      const newsForm = document.querySelector('.js-newsletter-form');
+      if (newsForm) {
+        newsForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const emailInput = newsForm.querySelector('.js-news-email');
+          window.UiManager.showToast(`Thank you for subscribing with: ${emailInput.value}! Code WELCOME5 is now active.`, "success");
+          emailInput.value = "";
+        });
+      }
+
+      // Initial load
+      renderHomeProducts();
+    });
+  </script>
+</body>
+
+</html>
