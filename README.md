@@ -39,4 +39,4 @@ You can log in to the storefront immediately using the following test credential
 
 Check [ROADMAP.md](ROADMAP.md) for planned future features, and [CHANGELOG.md](CHANGELOG.md) to inspect release tags.
 
-<!-- Commit tick 18: added hero image slider to homepage -->
+<!-- Commit tick 19: added footer layout links -->
