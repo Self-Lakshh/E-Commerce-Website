@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Catalog | CommerceFlow</title>
+
+  <!-- Bootstrap 5.3.2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="src/css/style.css">
+</head>
+
+<body>
+
+  <!-- NAVIGATION NAVBAR START -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top cf-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="image/logo.png" width="34" height="34" alt="CommerceFlow logo">
+        <span>CommerceFlow</span>
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars-staggered text-dark"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <form class="d-flex mx-auto search-container my-3 my-lg-0 js-search-form">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input class="form-control search-input js-search-input w-100" type="search" placeholder="Search products..." aria-label="Search">
+        </form>
+
+        <div class="d-flex align-items-center gap-3 justify-content-end">
+          <a href="catalog.html" class="nav-link fw-semibold px-2 active text-primary">Catalog</a>
+          
+          <a href="dashboard.html?tab=wishlist" class="nav-action-btn" aria-label="Wishlist">
+            <i class="fa-regular fa-heart fa-lg"></i>
+            <span class="badge-count js-wishlist-count" style="display: none;">0</span>
+          </a>
+
+          <a href="cart.html" class="nav-action-btn" aria-label="Shopping Cart">
+            <i class="fa-solid fa-bag-shopping fa-lg"></i>
+            <span class="badge-count js-cart-count" style="display: none;">0</span>
+          </a>
+
+          <div class="js-auth-nav-container"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- NAVIGATION NAVBAR END -->
+
+  <!-- BREADCRUMBS START -->
+  <div class="container mt-4 mb-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Catalog</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- BREADCRUMBS END -->
+
+  <!-- CATALOG WRAPPER START -->
+  <main class="container mb-5">
+    <div class="row g-4">
+      
+      <!-- FILTER SIDEBAR START -->
+      <aside class="col-lg-3">
+        <div class="filter-sidebar">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h5 mb-0"><i class="fa-solid fa-sliders me-2 text-primary"></i> Filters</h2>
+            <button class="btn btn-sm btn-link text-decoration-none js-reset-filters p-0">Clear All</button>
+          </div>
+
+          <!-- Category Filter -->
+          <div class="filter-section">
+            <h3 class="filter-section-title">Category</h3>
+            <div id="category-filter-list">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Brand Filter -->
+          <div class="filter-section">
+            <h3 class="filter-section-title">Brand</h3>
+            <div id="brand-filter-list" style="max-height: 160px; overflow-y: auto;">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Price Filter -->
+          <div class="filter-section">
+            <h3 class="filter-section-title">Price Range</h3>
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="text-muted small">$</span>
+              <input type="number" class="form-control form-control-sm js-min-price-input" placeholder="Min" min="0">
+              <span class="text-muted small">-</span>
+              <span class="text-muted small">$</span>
+              <input type="number" class="form-control form-control-sm js-max-price-input" placeholder="Max" min="0">
+            </div>
+          </div>
+
+          <!-- Rating Filter -->
+          <div class="filter-section">
+            <h3 class="filter-section-title">Customer Rating</h3>
+            <div class="stars-filter">
+              <div class="form-check mb-2">
+                <input class="form-check-input js-rating-filter" type="radio" name="ratingFilter" id="r4" value="4.0">
+                <label class="form-check-label text-dark small" for="r4">
+                  4.0 & Up <span class="text-warning"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                </label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input js-rating-filter" type="radio" name="ratingFilter" id="r3" value="3.0">
+                <label class="form-check-label text-dark small" for="r3">
+                  3.0 & Up <span class="text-warning"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                </label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input js-rating-filter" type="radio" name="ratingFilter" id="rall" value="0.0" checked>
+                <label class="form-check-label text-dark small" for="rall">All Ratings</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Availability Filter -->
+          <div class="filter-section">
+            <h3 class="filter-section-title">Availability</h3>
+            <div class="form-check">
+              <input class="form-check-input js-stock-filter" type="checkbox" id="stockOnly">
+              <label class="form-check-label small" for="stockOnly">In Stock Only</label>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+      <!-- FILTER SIDEBAR END -->
+
+      <!-- CATALOG CONTENT START -->
+      <section class="col-lg-9">
+        
+        <!-- Toolbar Header -->
+        <div class="card p-3 mb-4 border-0 shadow-sm bg-white rounded-3">
+          <div class="row align-items-center g-3">
+            <div class="col-md-6">
+              <div class="text-muted small">
+                Showing <strong class="text-dark js-result-count">0</strong> products
+                <span class="js-search-status" style="display:none;"> for "<strong class="text-primary js-query-text"></strong>"</span>
+              </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-md-end align-items-center gap-3">
+              <label for="sortBy" class="small text-muted text-nowrap mb-0">Sort By:</label>
+              <select class="form-select form-select-sm js-sort-select" id="sortBy" style="max-width: 180px;">
+                <option value="featured" selected>Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products Grid Container -->
+        <div class="row g-4" id="catalog-products-container">
+          <!-- Injected dynamically by Catalog scripts -->
+        </div>
+
+        <!-- Pagination Section -->
+        <nav aria-label="Page navigation" class="mt-5 d-flex justify-content-center">
+          <ul class="pagination pagination-md shadow-sm rounded" id="catalog-pagination">
+            <!-- Injected dynamically -->
+          </ul>
+        </nav>
+
+      </section>
+      <!-- CATALOG CONTENT END -->
+
+    </div>
+  </main>
+  <!-- CATALOG WRAPPER END -->
+
+  <!-- FOOTER START -->
+  <footer class="footer py-5 mt-auto">
+    <!-- Repopulated standard footer -->
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="navbar-brand text-white mb-3 d-inline-flex align-items-center gap-2" href="#">
+            <img src="image/logo.png" width="30" height="30" alt="logo">
+            <span>CommerceFlow</span>
+          </a>
+          <p class="small text-muted mt-2">CommerceFlow is a premium demo e-commerce store built to showcase state-of-the-art layout aesthetics, client-side caching, and search sorting workflows.</p>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2 offset-lg-1">
+          <h5>Shop Pages</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="catalog.html">Full Catalog</a></li>
+            <li><a href="catalog.html?category=Laptops">Laptops</a></li>
+            <li><a href="catalog.html?category=Mobile">Smartphones</a></li>
+            <li><a href="catalog.html?category=Audio">Audio Devices</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2">
+          <h5>User Account</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="dashboard.html">My Dashboard</a></li>
+            <li><a href="dashboard.html?tab=orders">Order History</a></li>
+            <li><a href="dashboard.html?tab=wishlist">Wishlist</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <h5>Help & Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#">Shipping FAQ</a></li>
+            <li><a href="#">Returns Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-4 border-slate-700">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small">
+        <p class="mb-0">&copy; 2024 CommerceFlow, Inc. All rights reserved.</p>
+        <p class="mb-0">Created by <a href="https://github.com/Self-Lakshh" target="_blank" class="text-white text-decoration-underline">Self-Lakshh</a></p>
+      </div>
+    </div>
+  </footer>
+  <!-- FOOTER END -->
+
+  <!-- Bootstrap 5.3.2 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <!-- Core App Scripts -->
+  <script src="src/js/products.js"></script>
+  <script src="src/js/ui.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/wishlist.js"></script>
+  <script src="src/js/auth.js"></script>
+  <script src="src/js/checkout.js"></script>
+  <script src="src/js/app.js"></script>
+
+  <!-- Catalog Filter and Query Page Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('catalog-products-container');
+      const paginationContainer = document.getElementById('catalog-pagination');
+      const categoryFilterList = document.getElementById('category-filter-list');
+      const brandFilterList = document.getElementById('brand-filter-list');
+      
+      // Page states
+      let currentPage = 1;
+      const itemsPerPage = 12;
+      let activeFilters = {
+        search: "",
+        category: "All",
+        brands: [],
+        minRating: 0.0,
+        minPrice: null,
+        maxPrice: null,
+        inStockOnly: false,
+        sortBy: "featured"
+      };
+
+      // Read initial parameters from URL (e.g. catalog.html?category=Audio&search=Sony)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('category')) {
+        activeFilters.category = urlParams.get('category');
+      }
+      if (urlParams.has('search')) {
+        activeFilters.search = urlParams.get('search');
+        const headerSearch = document.querySelector('.js-search-input');
+        if (headerSearch) headerSearch.value = activeFilters.search;
+      }
+
+      // Populate filter checkboxes in sidebar
+      function initFilterSidebarUI() {
+        // Categories
+        let catHtml = `
+          <div class="form-check mb-2">
+            <input class="form-check-input js-cat-check" type="radio" name="catFilter" id="cat-all" value="All" ${activeFilters.category === 'All' ? 'checked' : ''}>
+            <label class="form-check-label small" for="cat-all">All Categories</label>
+          </div>
+        `;
+        window.CATEGORIES_DB.forEach((cat, idx) => {
+          const isChecked = activeFilters.category === cat ? 'checked' : '';
+          catHtml += `
+            <div class="form-check mb-2">
+              <input class="form-check-input js-cat-check" type="radio" name="catFilter" id="cat-${idx}" value="${cat}" ${isChecked}>
+              <label class="form-check-label small text-capitalize" for="cat-${idx}">${cat}</label>
+            </div>
+          `;
+        });
+        categoryFilterList.innerHTML = catHtml;
+
+        // Brands
+        let brandHtml = "";
+        window.BRANDS_DB.forEach((brand, idx) => {
+          brandHtml += `
+            <div class="form-check mb-2">
+              <input class="form-check-input js-brand-check" type="checkbox" id="brand-${idx}" value="${brand}">
+              <label class="form-check-label small" for="brand-${idx}">${brand}</label>
+            </div>
+          `;
+        });
+        brandFilterList.innerHTML = brandHtml;
+      }
+
+      // Render product grid
+      function renderCatalog() {
+        window.UiManager.renderSkeletons(container, 8);
+        
+        setTimeout(() => {
+          const results = window.ProductEngine.queryProducts(activeFilters);
+          
+          // Update counters
+          document.querySelector('.js-result-count').textContent = results.length;
+          const searchStatus = document.querySelector('.js-search-status');
+          const queryText = document.querySelector('.js-query-text');
+          
+          if (activeFilters.search) {
+            searchStatus.style.display = 'inline';
+            queryText.textContent = activeFilters.search;
+          } else {
+            searchStatus.style.display = 'none';
+          }
+
+          if (results.length === 0) {
+            window.UiManager.renderEmptyState(container, "Try relaxing your search terms or unchecking sidebar filters.", "fa-store-slash");
+            paginationContainer.innerHTML = "";
+            return;
+          }
+
+          // Calculate Pagination chunks
+          const totalPages = Math.ceil(results.length / itemsPerPage);
+          currentPage = Math.min(currentPage, totalPages);
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const paginatedItems = results.slice(startIndex, startIndex + itemsPerPage);
+
+          // Render Grid
+          let html = "";
+          paginatedItems.forEach(product => {
+            const isWish = window.WishlistManager.isInWishlist(product.id);
+            const wishClass = isWish ? 'active' : '';
+            const wishIcon = isWish ? '<i class="fa-solid fa-heart"></i>' : '<i class="fa-regular fa-heart"></i>';
+            const priceHtml = product.oldPrice 
+              ? `$${product.price} <span class="old-price">$${product.oldPrice}</span>`
+              : `$${product.price}`;
+
+            const badgeHtml = product.oldPrice 
+              ? `<span class="product-badge sale">Sale</span>`
+              : `<span class="product-badge">New</span>`;
+
+            html += `
+              <div class="col-6 col-md-4 mb-4">
+                <article class="product-card">
+                  <div class="product-img-wrapper">
+                    ${badgeHtml}
+                    <button class="wishlist-btn js-toggle-wishlist ${wishClass}" data-id="${product.id}" aria-label="Add to Wishlist">
+                      ${wishIcon}
+                    </button>
+                    <a href="product.html?id=${product.id}">
+                      <img src="${product.image}" alt="${product.title}" loading="lazy">
+                    </a>
+                  </div>
+                  <div class="product-info">
+                    <span class="product-category">${product.category}</span>
+                    <a href="product.html?id=${product.id}"><h3 class="product-title">${product.title}</h3></a>
+                    <div class="rating-stars">
+                      ${window.UiManager.getStarsHtml(product.rating)}
+                      <span class="rating-count">(${product.reviews.length})</span>
+                    </div>
+                    <div class="product-footer">
+                      <span class="product-price">${priceHtml}</span>
+                      <button class="add-cart-icon-btn js-add-to-cart" data-id="${product.id}" aria-label="Add to Cart">
+                        <i class="fa-solid fa-cart-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            `;
+          });
+          container.innerHTML = html;
+
+          // Render Pagination controls
+          renderPagination(totalPages);
+        }, 500);
+      }
+
+      function renderPagination(totalPages) {
+        if (totalPages <= 1) {
+          paginationContainer.innerHTML = "";
+          return;
+        }
+
+        let html = `
+          <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+            <button class="page-link js-page-btn" data-page="${currentPage - 1}">Previous</button>
+          </li>
+        `;
+
+        for (let i = 1; i <= totalPages; i++) {
+          html += `
+            <li class="page-item ${currentPage === i ? 'active' : ''}">
+              <button class="page-link js-page-btn" data-page="${i}">${i}</button>
+            </li>
+          `;
+        }
+
+        html += `
+          <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <button class="page-link js-page-btn" data-page="${currentPage + 1}">Next</button>
+          </li>
+        `;
+        paginationContainer.innerHTML = html;
+      }
+
+      // Event listener wiring
+      // Category Radio changes
+      categoryFilterList.addEventListener('change', (e) => {
+        if (e.target.classList.contains('js-cat-check')) {
+          activeFilters.category = e.target.value;
+          currentPage = 1;
+          renderCatalog();
+        }
+      });
+
+      // Brand Checkbox changes
+      brandFilterList.addEventListener('change', () => {
+        const checked = brandFilterList.querySelectorAll('.js-brand-check:checked');
+        activeFilters.brands = Array.from(checked).map(c => c.value);
+        currentPage = 1;
+        renderCatalog();
+      });
+
+      // Price input changes
+      document.querySelector('.js-min-price-input').addEventListener('input', (e) => {
+        const val = e.target.value;
+        activeFilters.minPrice = val !== "" ? parseFloat(val) : null;
+        currentPage = 1;
+        renderCatalog();
+      });
+      document.querySelector('.js-max-price-input').addEventListener('input', (e) => {
+        const val = e.target.value;
+        activeFilters.maxPrice = val !== "" ? parseFloat(val) : null;
+        currentPage = 1;
+        renderCatalog();
+      });
+
+      // Rating filter radio changes
+      document.querySelectorAll('.js-rating-filter').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          activeFilters.minRating = parseFloat(e.target.value);
+          currentPage = 1;
+          renderCatalog();
+        });
+      });
+
+      // Stock filter checkbox changes
+      document.querySelector('.js-stock-filter').addEventListener('change', (e) => {
+        activeFilters.inStockOnly = e.target.checked;
+        currentPage = 1;
+        renderCatalog();
+      });
+
+      // Sort order changes
+      document.querySelector('.js-sort-select').addEventListener('change', (e) => {
+        activeFilters.sortBy = e.target.value;
+        renderCatalog();
+      });
+
+      // Reset filters button click
+      document.querySelector('.js-reset-filters').addEventListener('click', () => {
+        // Reset local filter object
+        activeFilters = {
+          search: "",
+          category: "All",
+          brands: [],
+          minRating: 0.0,
+          minPrice: null,
+          maxPrice: null,
+          inStockOnly: false,
+          sortBy: "featured"
+        };
+        
+        // Reset DOM elements
+        const minPriceInput = document.querySelector('.js-min-price-input');
+        const maxPriceInput = document.querySelector('.js-max-price-input');
+        const stockFilter = document.querySelector('.js-stock-filter');
+        const searchInput = document.querySelector('.js-search-input');
+        
+        if (minPriceInput) minPriceInput.value = "";
+        if (maxPriceInput) maxPriceInput.value = "";
+        if (stockFilter) stockFilter.checked = false;
+        if (searchInput) searchInput.value = "";
+        
+        document.getElementById('rall').checked = true;
+        
+        // Redraw list
+        initFilterSidebarUI();
+        currentPage = 1;
+        renderCatalog();
+      });
+
+      // Pagination button click delegation
+      paginationContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('.js-page-btn');
+        if (btn) {
+          const page = parseInt(btn.dataset.page);
+          if (page && !isNaN(page)) {
+            currentPage = page;
+            renderCatalog();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
+      });
+
+      // Initial runs
+      initFilterSidebarUI();
+      renderCatalog();
+    });
+  </script>
+</body>
+
+</html>

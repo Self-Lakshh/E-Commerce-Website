@@ -1,0 +1,60 @@
+[
+  {
+    "id": 1,
+    "title": "WH-1000XM5 Wireless Headphones",
+    "description": "Experience the highest tier of tech design. The WH-1000XM5 Wireless Headphones combines cutting-edge utility with premium Sony craftsmanship. Designed for durability, performance, and everyday convenience in various tasks.",
+    "category": "Audio",
+    "brand": "Sony",
+    "price": 348,
+    "oldPrice": 399,
+    "rating": 4.8,
+    "stock": 15,
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60",
+    "specs": {
+      "Type": "Over-Ear",
+      "Connection": "Bluetooth 5.2",
+      "Battery Life": "30 Hours",
+      "Noise Cancelling": "Industry-leading ANC"
+    },
+    "reviews": [
+      {
+        "author": "Sarah T.",
+        "rating": 5,
+        "date": "2023-11-12",
+        "comment": "Absolutely amazing product! Exceeded my expectations."
+      },
+      {
+        "author": "Alex M.",
+        "rating": 4,
+        "date": "2023-11-28",
+        "comment": "Solid performance, but there is some room for minor improvements."
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "AirPods Pro (2nd Gen)",
+    "description": "Experience the highest tier of tech design. The AirPods Pro (2nd Gen) combines cutting-edge utility with premium Apple craftsmanship. Designed for durability, performance, and everyday convenience.",
+    "category": "Audio",
+    "brand": "Apple",
+    "price": 229,
+    "oldPrice": 249,
+    "rating": 4.7,
+    "stock": 24,
+    "image": "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=500&auto=format&fit=crop&q=60",
+    "specs": {
+      "Type": "In-Ear",
+      "Connection": "Bluetooth 5.3",
+      "Battery Life": "6 Hours (24 in case)",
+      "Water Resistance": "IPX4"
+    },
+    "reviews": [
+      {
+        "author": "David K.",
+        "rating": 5,
+        "date": "2023-12-05",
+        "comment": "Best purchase I've made this year. Flawless!"
+      }
+    ]
+  }
+]
