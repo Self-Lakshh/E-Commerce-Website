@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Details | CommerceFlow</title>
+
+  <!-- Bootstrap 5.3.2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="src/css/style.css">
+</head>
+
+<body>
+
+  <!-- NAVIGATION NAVBAR START -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top cf-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="image/logo.png" width="34" height="34" alt="CommerceFlow logo">
+        <span>CommerceFlow</span>
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars-staggered text-dark"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <form class="d-flex mx-auto search-container my-3 my-lg-0 js-search-form">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input class="form-control search-input js-search-input w-100" type="search" placeholder="Search products..." aria-label="Search">
+        </form>
+
+        <div class="d-flex align-items-center gap-3 justify-content-end">
+          <a href="catalog.html" class="nav-link fw-semibold px-2">Catalog</a>
+          
+          <a href="dashboard.html?tab=wishlist" class="nav-action-btn" aria-label="Wishlist">
+            <i class="fa-regular fa-heart fa-lg"></i>
+            <span class="badge-count js-wishlist-count" style="display: none;">0</span>
+          </a>
+
+          <a href="cart.html" class="nav-action-btn" aria-label="Shopping Cart">
+            <i class="fa-solid fa-bag-shopping fa-lg"></i>
+            <span class="badge-count js-cart-count" style="display: none;">0</span>
+          </a>
+
+          <div class="js-auth-nav-container"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- NAVIGATION NAVBAR END -->
+
+  <!-- BREADCRUMBS START -->
+  <div class="container mt-4 mb-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="catalog.html">Catalog</a></li>
+        <li class="breadcrumb-item active js-breadcrumb-active" aria-current="page">Product Detail</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- BREADCRUMBS END -->
+
+  <!-- PRODUCT CONTAINER START -->
+  <main class="container mb-5">
+    
+    <!-- Error/Not Found Block -->
+    <div id="product-error-block" style="display:none;" class="py-5 text-center">
+      <i class="fa-solid fa-triangle-exclamation fa-4x text-danger mb-3"></i>
+      <h2>Product Not Found</h2>
+      <p class="text-muted">The product you requested does not exist or has been discontinued.</p>
+      <a href="catalog.html" class="btn btn-primary mt-3">Back to Catalog</a>
+    </div>
+
+    <!-- Product Layout Grid -->
+    <div id="product-detail-grid" class="row g-5">
+      
+      <!-- Left Column: Gallery -->
+      <section class="col-lg-6">
+        <div class="gallery-main-img">
+          <img id="main-product-image" src="" alt="Main Product Image">
+        </div>
+        <div class="gallery-thumbnails" id="product-thumb-container">
+          <!-- Thumbnail buttons injected here -->
+        </div>
+      </section>
+
+      <!-- Right Column: Info Details -->
+      <section class="col-lg-6">
+        <span class="badge bg-primary-light text-primary mb-2 js-detail-category" style="font-size: 0.8rem; font-weight:600; padding: 0.35rem 0.75rem;">Category</span>
+        <h1 class="h2 mb-2 js-detail-title" id="product-title-header">Product Loading...</h1>
+        
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <div class="rating-stars mb-0 js-detail-stars">
+            <!-- Stars dynamic -->
+          </div>
+          <span class="text-muted small js-detail-review-count">(0 Reviews)</span>
+          <span class="text-muted">|</span>
+          <span class="small js-detail-brand">Brand: <strong>Brand</strong></span>
+        </div>
+
+        <div class="card p-4 border-0 shadow-sm bg-white rounded-3 mb-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="fs-2 fw-bold text-dark js-detail-price">$0.00</span>
+            <span class="text-muted text-decoration-line-through fs-5 js-detail-oldprice" style="display:none;">$0.00</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle js-detail-stock-status">In Stock</span>
+          </div>
+          <p class="text-muted small mb-0 js-detail-desc">Product description loading...</p>
+        </div>
+
+        <!-- Specifications Table -->
+        <h2 class="h5 mb-3">Specifications</h2>
+        <div class="table-responsive mb-4">
+          <table class="table table-sm table-striped border-top">
+            <tbody id="specs-table-body">
+              <!-- Injected specs -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Spec Overrides / Options (e.g. Colors) -->
+        <div class="mb-4">
+          <label class="form-label small fw-bold text-muted text-uppercase mb-2">Select Color</label>
+          <div class="d-flex gap-2" id="color-selectors">
+            <button class="btn btn-sm btn-outline-dark active js-color-btn" data-color="Default">Standard Edition</button>
+            <button class="btn btn-sm btn-outline-dark js-color-btn" data-color="Space Gray">Space Gray</button>
+            <button class="btn btn-sm btn-outline-dark js-color-btn" data-color="Matte Black">Matte Black</button>
+          </div>
+        </div>
+
+        <!-- Add Actions Panel -->
+        <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
+          <!-- Quantity Adjust -->
+          <div class="d-flex align-items-center border rounded-3 bg-white" style="height: 48px; width: 130px; justify-content: space-between; padding: 0 10px;">
+            <button class="btn btn-link text-dark p-0 border-0 js-qty-minus" aria-label="Decrease quantity"><i class="fa-solid fa-minus"></i></button>
+            <span class="fw-bold js-qty-value" id="qty-value">1</span>
+            <button class="btn btn-link text-dark p-0 border-0 js-qty-plus" aria-label="Increase quantity"><i class="fa-solid fa-plus"></i></button>
+          </div>
+
+          <button class="btn btn-primary h-100 flex-grow-1 py-3 js-add-cart-detail" id="add-to-cart-detail">
+            <i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
+          </button>
+          
+          <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center js-wishlist-toggle-detail" style="height: 48px; width: 48px; border-radius: var(--radius-md);" aria-label="Toggle Wishlist">
+            <i class="fa-regular fa-heart fa-lg"></i>
+          </button>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- REVIEWS SECTION START -->
+    <section class="mt-5 pt-5 border-top" id="product-reviews-block">
+      <div class="row g-5">
+        
+        <!-- Left: Summary Metrics -->
+        <div class="col-md-4">
+          <h2 class="h4 mb-3">Customer Reviews</h2>
+          <div class="card p-4 border-0 shadow-sm bg-white rounded-3 text-center mb-4">
+            <div class="display-3 fw-bold text-dark js-review-avg">0.0</div>
+            <div class="rating-stars justify-content-center fs-5 my-2 js-review-avg-stars">
+              <!-- Stars -->
+            </div>
+            <span class="text-muted small js-review-total-count">Based on 0 reviews</span>
+          </div>
+
+          <!-- Add Review Form -->
+          <div class="card p-4 border-0 shadow-sm bg-white rounded-3">
+            <h3 class="h5 mb-3">Write a Review</h3>
+            <form class="js-review-form">
+              <div class="mb-3">
+                <label for="reviewName" class="form-label small fw-semibold">Your Name</label>
+                <input type="text" class="form-control form-control-sm" id="reviewName" placeholder="e.g. Jane Doe" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-semibold d-block">Rating</label>
+                <select class="form-select form-select-sm" id="reviewRating" required>
+                  <option value="5" selected>5 Stars - Outstanding</option>
+                  <option value="4">4 Stars - Very Good</option>
+                  <option value="3">3 Stars - Average</option>
+                  <option value="2">2 Stars - Disappointed</option>
+                  <option value="1">1 Star - Poor</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="reviewComment" class="form-label small fw-semibold">Review Feedback</label>
+                <textarea class="form-control form-control-sm" id="reviewComment" rows="3" placeholder="Share your experience..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm w-100 py-2">Submit Review</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right: Reviews List -->
+        <div class="col-md-8">
+          <h2 class="h4 mb-4">Reviews Feed</h2>
+          <div id="reviews-feed-container">
+            <!-- Reviews Injected -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- REVIEWS SECTION END -->
+
+    <!-- RELATED PRODUCTS SECTION START -->
+    <section class="mt-5 pt-5 border-top" id="related-products-block">
+      <h2 class="mb-4">Related Products</h2>
+      <div class="row g-4" id="related-products-container">
+        <!-- Recommends injected -->
+      </div>
+    </section>
+    <!-- RELATED PRODUCTS SECTION END -->
+
+  </main>
+  <!-- PRODUCT CONTAINER END -->
+
+  <!-- FOOTER START -->
+  <footer class="footer py-5 mt-auto">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="navbar-brand text-white mb-3 d-inline-flex align-items-center gap-2" href="#">
+            <img src="image/logo.png" width="30" height="30" alt="logo">
+            <span>CommerceFlow</span>
+          </a>
+          <p class="small text-muted mt-2">CommerceFlow is a premium demo e-commerce store built to showcase state-of-the-art layout aesthetics, client-side caching, and search sorting workflows.</p>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2 offset-lg-1">
+          <h5>Shop Pages</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="catalog.html">Full Catalog</a></li>
+            <li><a href="catalog.html?category=Laptops">Laptops</a></li>
+            <li><a href="catalog.html?category=Mobile">Smartphones</a></li>
+            <li><a href="catalog.html?category=Audio">Audio Devices</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2">
+          <h5>User Account</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="dashboard.html">My Dashboard</a></li>
+            <li><a href="dashboard.html?tab=orders">Order History</a></li>
+            <li><a href="dashboard.html?tab=wishlist">Wishlist</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <h5>Help & Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#">Shipping FAQ</a></li>
+            <li><a href="#">Returns Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-4 border-slate-700">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small">
+        <p class="mb-0">&copy; 2024 CommerceFlow, Inc. All rights reserved.</p>
+        <p class="mb-0">Created by <a href="https://github.com/Self-Lakshh" target="_blank" class="text-white text-decoration-underline">Self-Lakshh</a></p>
+      </div>
+    </div>
+  </footer>
+  <!-- FOOTER END -->
+
+  <!-- Bootstrap 5.3.2 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <!-- Core App Scripts -->
+  <script src="src/js/products.js"></script>
+  <script src="src/js/ui.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/wishlist.js"></script>
+  <script src="src/js/auth.js"></script>
+  <script src="src/js/checkout.js"></script>
+  <script src="src/js/app.js"></script>
+
+  <!-- Product Details Logic script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = parseInt(urlParams.get('id'));
+
+      const errorBlock = document.getElementById('product-error-block');
+      const detailGrid = document.getElementById('product-detail-grid');
+      const reviewsBlock = document.getElementById('product-reviews-block');
+      const relatedBlock = document.getElementById('related-products-block');
+
+      let currentProduct = null;
+      let selectedQuantity = 1;
+      let selectedColor = "Standard Edition";
+
+      // Load Product context
+      if (isNaN(productId)) {
+        showErrorState();
+        return;
+      }
+
+      currentProduct = window.ProductEngine.getProductById(productId);
+      if (!currentProduct) {
+        showErrorState();
+        return;
+      }
+
+      // Populate elements
+      renderProductDetails();
+      renderReviews();
+      renderRelated();
+
+      function showErrorState() {
+        errorBlock.style.display = 'block';
+        detailGrid.style.display = 'none';
+        reviewsBlock.style.display = 'none';
+        relatedBlock.style.display = 'none';
+      }
+
+      function renderProductDetails() {
+        // Title Breadcrumbs
+        document.querySelector('.js-breadcrumb-active').textContent = currentProduct.title;
+        document.getElementById('product-title-header').textContent = currentProduct.title;
+        
+        // Gallery
+        const mainImg = document.getElementById('main-product-image');
+        mainImg.src = currentProduct.image;
+        mainImg.alt = currentProduct.title;
+
+        // Populate thumbnails
+        const thumbContainer = document.getElementById('product-thumb-container');
+        const thumbs = [
+          currentProduct.image,
+          "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&auto=format&fit=crop&q=60", // auxiliary product layout angle 1
+          "https://images.unsplash.com/photo-1504274066654-fa291bb523d2?w=300&auto=format&fit=crop&q=60"  // auxiliary product layout angle 2
+        ];
+        
+        let thumbHtml = "";
+        thumbs.forEach((src, idx) => {
+          thumbHtml += `
+            <div class="thumb-img ${idx === 0 ? 'active' : ''}" data-src="${src}">
+              <img src="${src}" alt="Thumb Angle ${idx+1}">
+            </div>
+          `;
+        });
+        thumbContainer.innerHTML = thumbHtml;
+
+        // Attach thumbnail switch clicks
+        thumbContainer.querySelectorAll('.thumb-img').forEach(btn => {
+          btn.addEventListener('click', () => {
+            thumbContainer.querySelectorAll('.thumb-img').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            mainImg.src = btn.dataset.src;
+          });
+        });
+
+        // Specs & Tags
+        document.querySelector('.js-detail-category').textContent = currentProduct.category;
+        document.querySelector('.js-detail-brand strong').textContent = currentProduct.brand;
+        document.querySelector('.js-detail-desc').textContent = currentProduct.description;
+        document.querySelector('.js-detail-review-count').textContent = `(${currentProduct.reviews.length} Reviews)`;
+
+        // Ratings Stars
+        document.querySelector('.js-detail-stars').innerHTML = window.UiManager.getStarsHtml(currentProduct.rating);
+
+        // Price calculations
+        document.querySelector('.js-detail-price').textContent = `$${currentProduct.price}`;
+        const oldPriceEl = document.querySelector('.js-detail-oldprice');
+        if (currentProduct.oldPrice) {
+          oldPriceEl.textContent = `$${currentProduct.oldPrice}`;
+          oldPriceEl.style.display = 'inline';
+        } else {
+          oldPriceEl.style.display = 'none';
+        }
+
+        // Inventory Stock tag
+        const stockEl = document.querySelector('.js-detail-stock-status');
+        if (currentProduct.stock > 0) {
+          stockEl.textContent = `In Stock (${currentProduct.stock} available)`;
+          stockEl.className = "badge bg-success-subtle text-success border border-success-subtle";
+        } else {
+          stockEl.textContent = "Out of Stock";
+          stockEl.className = "badge bg-danger-subtle text-danger border border-danger-subtle";
+          document.getElementById('add-to-cart-detail').disabled = true;
+        }
+
+        // Populate Specs Table rows
+        const specsBody = document.getElementById('specs-table-body');
+        let specsHtml = "";
+        for (const [key, value] of Object.entries(currentProduct.specs)) {
+          specsHtml += `
+            <tr>
+              <td class="fw-semibold text-muted py-2" style="width: 35%;">${key}</td>
+              <td class="text-dark py-2">${value}</td>
+            </tr>
+          `;
+        }
+        specsBody.innerHTML = specsHtml;
+
+        // Wishlist button state initial sync
+        syncWishlistBtn();
+      }
+
+      // Sync heart state
+      function syncWishlistBtn() {
+        const btn = document.querySelector('.js-wishlist-toggle-detail');
+        const isWish = window.WishlistManager.isInWishlist(currentProduct.id);
+        if (isWish) {
+          btn.innerHTML = '<i class="fa-solid fa-heart fa-lg text-danger"></i>';
+          btn.classList.add('border-danger');
+        } else {
+          btn.innerHTML = '<i class="fa-regular fa-heart fa-lg"></i>';
+          btn.classList.remove('border-danger');
+        }
+      }
+
+      // Quantity controls +/-
+      document.querySelector('.js-qty-minus').addEventListener('click', () => {
+        if (selectedQuantity > 1) {
+          selectedQuantity--;
+          document.getElementById('qty-value').textContent = selectedQuantity;
+        }
+      });
+      document.querySelector('.js-qty-plus').addEventListener('click', () => {
+        if (selectedQuantity < currentProduct.stock) {
+          selectedQuantity++;
+          document.getElementById('qty-value').textContent = selectedQuantity;
+        } else {
+          window.UiManager.showToast("Cannot add more. Limit of available stock reached.", "warning");
+        }
+      });
+
+      // Color selector clicks
+      document.querySelectorAll('.js-color-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.js-color-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedColor = btn.dataset.color;
+        });
+      });
+
+      // Details page Add to Cart button click
+      document.getElementById('add-to-cart-detail').addEventListener('click', () => {
+        const res = window.CartManager.addItem(currentProduct.id, selectedQuantity, { Color: selectedColor });
+        if (res.success) {
+          // Reset count selector on screen
+          selectedQuantity = 1;
+          document.getElementById('qty-value').textContent = 1;
+        } else {
+          window.UiManager.showToast(res.message, "danger");
+        }
+      });
+
+      // Details page Add to Wishlist click
+      document.querySelector('.js-wishlist-toggle-detail').addEventListener('click', () => {
+        window.WishlistManager.toggleItem(currentProduct.id);
+        syncWishlistBtn();
+      });
+
+      // Render reviews feeds
+      function renderReviews() {
+        // Aggregate header metrics
+        document.querySelector('.js-review-avg').textContent = currentProduct.rating;
+        document.querySelector('.js-review-avg-stars').innerHTML = window.UiManager.getStarsHtml(currentProduct.rating);
+        document.querySelector('.js-review-total-count').textContent = `Based on ${currentProduct.reviews.length} reviews`;
+
+        const feedContainer = document.getElementById('reviews-feed-container');
+        if (currentProduct.reviews.length === 0) {
+          feedContainer.innerHTML = `
+            <div class="alert alert-light border border-slate-200 text-center py-4">
+              <i class="fa-solid fa-comment-dots text-muted mb-2 fa-lg"></i>
+              <p class="mb-0 text-muted small">No reviews written for this product yet. Be the first to share feedback!</p>
+            </div>
+          `;
+          return;
+        }
+
+        let feedHtml = "";
+        currentProduct.reviews.forEach(r => {
+          feedHtml += `
+            <article class="review-card">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="h6 mb-0 fw-bold text-dark">${r.author}</h4>
+                <span class="text-muted small">${r.date}</span>
+              </div>
+              <div class="rating-stars fs-6 mb-2">
+                ${window.UiManager.getStarsHtml(r.rating)}
+              </div>
+              <p class="mb-0 small text-slate-700">${r.comment}</p>
+            </article>
+          `;
+        });
+        feedContainer.innerHTML = feedHtml;
+      }
+
+      // Review Form submission
+      document.querySelector('.js-review-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const author = document.getElementById('reviewName').value.trim();
+        const rating = document.getElementById('reviewRating').value;
+        const comment = document.getElementById('reviewComment').value.trim();
+
+        if (author && comment) {
+          const success = window.ProductEngine.addProductReview(currentProduct.id, {
+            author: author,
+            rating: rating,
+            comment: comment
+          });
+
+          if (success) {
+            window.UiManager.showToast("Review submitted successfully!", "success");
+            // Clear inputs
+            document.getElementById('reviewName').value = "";
+            document.getElementById('reviewComment').value = "";
+            document.getElementById('reviewRating').value = "5";
+            
+            // Reload reviews list
+            renderReviews();
+            
+            // Sync page reviews count
+            document.querySelector('.js-detail-review-count').textContent = `(${currentProduct.reviews.length} Reviews)`;
+            document.querySelector('.js-detail-stars').innerHTML = window.UiManager.getStarsHtml(currentProduct.rating);
+          }
+        }
+      });
+
+      // Render related products recommendations
+      function renderRelated() {
+        const relatedContainer = document.getElementById('related-products-container');
+        const relatedList = window.ProductEngine.getRelatedProducts(currentProduct.id, 4);
+
+        if (relatedList.length === 0) {
+          document.getElementById('related-products-block').style.display = 'none';
+          return;
+        }
+
+        let html = "";
+        relatedList.forEach(product => {
+          const isWish = window.WishlistManager.isInWishlist(product.id);
+          const wishClass = isWish ? 'active' : '';
+          const wishIcon = isWish ? '<i class="fa-solid fa-heart"></i>' : '<i class="fa-regular fa-heart"></i>';
+          const priceHtml = product.oldPrice 
+            ? `$${product.price} <span class="old-price">$${product.oldPrice}</span>`
+            : `$${product.price}`;
+
+          const badgeHtml = product.oldPrice 
+            ? `<span class="product-badge sale">Sale</span>`
+            : `<span class="product-badge">New</span>`;
+
+          html += `
+            <div class="col-6 col-md-3">
+              <article class="product-card">
+                <div class="product-img-wrapper">
+                  ${badgeHtml}
+                  <button class="wishlist-btn js-toggle-wishlist ${wishClass}" data-id="${product.id}" aria-label="Add to Wishlist">
+                    ${wishIcon}
+                  </button>
+                  <a href="product.html?id=${product.id}">
+                    <img src="${product.image}" alt="${product.title}" loading="lazy">
+                  </a>
+                </div>
+                <div class="product-info">
+                  <span class="product-category">${product.category}</span>
+                  <a href="product.html?id=${product.id}"><h3 class="product-title">${product.title}</h3></a>
+                  <div class="rating-stars">
+                    ${window.UiManager.getStarsHtml(product.rating)}
+                    <span class="rating-count">(${product.reviews.length})</span>
+                  </div>
+                  <div class="product-footer">
+                    <span class="product-price">${priceHtml}</span>
+                    <button class="add-cart-icon-btn js-add-to-cart" data-id="${product.id}" aria-label="Add to Cart">
+                      <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          `;
+        });
+        relatedContainer.innerHTML = html;
+      }
+    });
+  </script>
+</body>
+
+</html>
