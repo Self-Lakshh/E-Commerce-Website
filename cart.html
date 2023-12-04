@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopping Cart | CommerceFlow</title>
+
+  <!-- Bootstrap 5.3.2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="src/css/style.css">
+</head>
+
+<body>
+
+  <!-- NAVIGATION NAVBAR START -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top cf-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="image/logo.png" width="34" height="34" alt="CommerceFlow logo">
+        <span>CommerceFlow</span>
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars-staggered text-dark"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <form class="d-flex mx-auto search-container my-3 my-lg-0 js-search-form">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input class="form-control search-input js-search-input w-100" type="search" placeholder="Search products..." aria-label="Search">
+        </form>
+
+        <div class="d-flex align-items-center gap-3 justify-content-end">
+          <a href="catalog.html" class="nav-link fw-semibold px-2">Catalog</a>
+          
+          <a href="dashboard.html?tab=wishlist" class="nav-action-btn" aria-label="Wishlist">
+            <i class="fa-regular fa-heart fa-lg"></i>
+            <span class="badge-count js-wishlist-count" style="display: none;">0</span>
+          </a>
+
+          <a href="cart.html" class="nav-action-btn active text-primary" aria-label="Shopping Cart">
+            <i class="fa-solid fa-bag-shopping fa-lg"></i>
+            <span class="badge-count js-cart-count" style="display: none;">0</span>
+          </a>
+
+          <div class="js-auth-nav-container"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- NAVIGATION NAVBAR END -->
+
+  <!-- BREADCRUMBS START -->
+  <div class="container mt-4 mb-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- BREADCRUMBS END -->
+
+  <!-- CART WRAPPER START -->
+  <main class="container mb-5">
+    <h1 class="h2 mb-4">Your Shopping Cart</h1>
+    
+    <div class="row g-4">
+      
+      <!-- Left Column: Cart items -->
+      <section class="col-lg-8">
+        <div class="card border-0 shadow-sm bg-white p-3 rounded-3 mb-4">
+          <div id="cart-items-feed">
+            <!-- Items injected dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Summary Card -->
+      <section class="col-lg-4">
+        <div class="card border-0 shadow-sm bg-white p-4 rounded-3 mb-4">
+          <h2 class="h5 mb-3 border-bottom pb-2">Order Summary</h2>
+          
+          <div class="d-flex justify-content-between mb-2 small text-muted">
+            <span>Subtotal</span>
+            <span id="summary-subtotal">$0.00</span>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2 small text-muted">
+            <span>Estimated Shipping</span>
+            <span id="summary-shipping">$0.00</span>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2 small text-muted">
+            <span>Sales Tax (10%)</span>
+            <span id="summary-tax">$0.00</span>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2 small text-success js-discount-row" style="display: none !important;">
+            <span>Promo Discount (<span class="js-active-promo-code"></span>)</span>
+            <span id="summary-discount">-$0.00</span>
+          </div>
+
+          <div class="d-flex justify-content-between border-top pt-3 mb-4 fw-bold text-dark fs-5">
+            <span>Total</span>
+            <span id="summary-total">$0.00</span>
+          </div>
+
+          <!-- Promo Code entry -->
+          <div class="mb-4">
+            <label for="promoCodeInput" class="form-label small fw-semibold text-muted">Promo Code</label>
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control js-promo-input" id="promoCodeInput" placeholder="Try SAVE10 or WELCOME5">
+              <button class="btn btn-outline-primary js-apply-promo-btn" type="button">Apply</button>
+            </div>
+            <div class="text-success small mt-1 js-promo-success-msg" style="display:none;">Code applied successfully!</div>
+          </div>
+
+          <!-- Checkout Redirect -->
+          <button class="btn btn-primary w-100 py-2.5 js-checkout-redirect-btn" id="btn-proceed-checkout">
+            Proceed to Checkout <i class="fa-solid fa-arrow-right ms-2"></i>
+          </button>
+          
+          <div class="text-center mt-3">
+            <a href="catalog.html" class="small text-muted text-decoration-none"><i class="fa-solid fa-angle-left me-1"></i> Continue Shopping</a>
+          </div>
+        </div>
+
+        <div class="alert alert-light border border-slate-200 small">
+          <h3 class="h6 fw-bold"><i class="fa-solid fa-gift text-primary me-2"></i> Available Promo Offers</h3>
+          <ul class="mb-0 ps-3 mt-2 text-muted">
+            <li><strong>SAVE10</strong>: Get 10% off items subtotal.</li>
+            <li><strong>WELCOME5</strong>: Get $5.00 off order total.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  <!-- CART WRAPPER END -->
+
+  <!-- FOOTER START -->
+  <footer class="footer py-5 mt-auto">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="navbar-brand text-white mb-3 d-inline-flex align-items-center gap-2" href="#">
+            <img src="image/logo.png" width="30" height="30" alt="logo">
+            <span>CommerceFlow</span>
+          </a>
+          <p class="small text-muted mt-2">CommerceFlow is a premium demo e-commerce store built to showcase state-of-the-art layout aesthetics, client-side caching, and search sorting workflows.</p>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2 offset-lg-1">
+          <h5>Shop Pages</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="catalog.html">Full Catalog</a></li>
+            <li><a href="catalog.html?category=Laptops">Laptops</a></li>
+            <li><a href="catalog.html?category=Mobile">Smartphones</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2">
+          <h5>User Account</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="dashboard.html">My Dashboard</a></li>
+            <li><a href="dashboard.html?tab=orders">Order History</a></li>
+            <li><a href="dashboard.html?tab=wishlist">Wishlist</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <h5>Help & Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#">Shipping FAQ</a></li>
+            <li><a href="#">Returns Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-4 border-slate-700">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small">
+        <p class="mb-0">&copy; 2024 CommerceFlow, Inc. All rights reserved.</p>
+        <p class="mb-0">Created by <a href="https://github.com/Self-Lakshh" target="_blank" class="text-white text-decoration-underline">Self-Lakshh</a></p>
+      </div>
+    </div>
+  </footer>
+  <!-- FOOTER END -->
+
+  <!-- Bootstrap 5.3.2 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <!-- Core App Scripts -->
+  <script src="src/js/products.js"></script>
+  <script src="src/js/ui.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/wishlist.js"></script>
+  <script src="src/js/auth.js"></script>
+  <script src="src/js/checkout.js"></script>
+  <script src="src/js/app.js"></script>
+
+  <!-- Cart UI Actions Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const feed = document.getElementById('cart-items-feed');
+      let activePromo = "";
+
+      // Re-render listener on updates
+      window.addEventListener('cf-cart-updated', () => {
+        renderCartPage();
+      });
+
+      // Render cart layout
+      function renderCartPage() {
+        const items = window.CartManager.getCart();
+        
+        if (items.length === 0) {
+          window.UiManager.renderEmptyState(feed, "Your shopping cart is currently empty. Explore our catalog and add items to your list!", "fa-basket-shopping");
+          updateSummary(0, 0, 0, 0, 0);
+          document.getElementById('btn-proceed-checkout').disabled = true;
+          return;
+        }
+
+        document.getElementById('btn-proceed-checkout').disabled = false;
+        
+        let html = "";
+        items.forEach((item, idx) => {
+          const specsHtml = Object.entries(item.selectedSpecs).map(([k, v]) => `<strong>${k}:</strong> ${v}`).join(' | ');
+          const itemSubtotal = item.price * item.quantity;
+          
+          html += `
+            <div class="row align-items-center g-3 py-3 border-bottom ${idx === items.length - 1 ? 'border-bottom-0' : ''}">
+              <!-- Image -->
+              <div class="col-3 col-md-2 text-center">
+                <a href="product.html?id=${item.id}">
+                  <img src="${item.image}" alt="${item.title}" class="img-fluid rounded border p-1" style="max-height: 80px; object-fit: contain;">
+                </a>
+              </div>
+              
+              <!-- Title & Specs -->
+              <div class="col-9 col-md-4">
+                <span class="text-muted small text-uppercase font-heading">${item.brand}</span>
+                <a href="product.html?id=${item.id}"><h3 class="h6 mb-1 text-dark text-truncate">${item.title}</h3></a>
+                <div class="text-muted small">${specsHtml || 'Standard Edition'}</div>
+              </div>
+
+              <!-- Price -->
+              <div class="col-4 col-md-2 text-md-center">
+                <span class="text-dark fw-bold">$${item.price}</span>
+              </div>
+
+              <!-- Quantity selector -->
+              <div class="col-5 col-md-2 d-flex justify-content-center">
+                <div class="d-flex align-items-center border rounded-3 bg-light px-2" style="height: 36px; width: 100px; justify-content: space-between;">
+                  <button class="btn btn-link text-dark p-0 border-0 js-cart-minus" data-id="${item.id}" data-specs='${JSON.stringify(item.selectedSpecs)}' aria-label="Decrease quantity"><i class="fa-solid fa-minus fa-xs"></i></button>
+                  <span class="fw-bold small">${item.quantity}</span>
+                  <button class="btn btn-link text-dark p-0 border-0 js-cart-plus" data-id="${item.id}" data-specs='${JSON.stringify(item.selectedSpecs)}' aria-label="Increase quantity"><i class="fa-solid fa-plus fa-xs"></i></button>
+                </div>
+              </div>
+
+              <!-- Item Subtotal / Trash -->
+              <div class="col-3 col-md-2 text-end d-flex align-items-center justify-content-end gap-3">
+                <span class="text-dark fw-bold">$${itemSubtotal}</span>
+                <button class="btn btn-sm btn-link text-danger border-0 p-0 js-cart-remove" data-id="${item.id}" data-specs='${JSON.stringify(item.selectedSpecs)}' aria-label="Remove item">
+                  <i class="fa-solid fa-trash-can fa-lg"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        });
+        feed.innerHTML = html;
+
+        // Recalculate summary details
+        calculateSummary();
+      }
+
+      function calculateSummary() {
+        const MathTotals = window.CartManager.getTotals(activePromo);
+        updateSummary(
+          MathTotals.subtotal,
+          MathTotals.shipping,
+          MathTotals.tax,
+          MathTotals.discount,
+          MathTotals.total
+        );
+      }
+
+      function updateSummary(sub, ship, tax, disc, total) {
+        document.getElementById('summary-subtotal').textContent = `$${sub.toFixed(2)}`;
+        document.getElementById('summary-shipping').textContent = ship === 0 ? 'Free Shipping' : `$${ship.toFixed(2)}`;
+        document.getElementById('summary-tax').textContent = `$${tax.toFixed(2)}`;
+        document.getElementById('summary-total').textContent = `$${total.toFixed(2)}`;
+
+        const discountRow = document.querySelector('.js-discount-row');
+        if (disc > 0) {
+          discountRow.style.setProperty('display', 'flex', 'important');
+          document.querySelector('.js-active-promo-code').textContent = activePromo.toUpperCase();
+          document.getElementById('summary-discount').textContent = `-$${disc.toFixed(2)}`;
+        } else {
+          discountRow.style.setProperty('display', 'none', 'important');
+        }
+      }
+
+      // Quantity buttons click listener delegation
+      feed.addEventListener('click', (e) => {
+        const minusBtn = e.target.closest('.js-cart-minus');
+        const plusBtn = e.target.closest('.js-cart-plus');
+        const removeBtn = e.target.closest('.js-cart-remove');
+
+        if (minusBtn) {
+          const id = minusBtn.dataset.id;
+          const specs = JSON.parse(minusBtn.dataset.specs);
+          const cartItem = window.CartManager.getCart().find(i => i.id === parseInt(id) && JSON.stringify(i.selectedSpecs) === JSON.stringify(specs));
+          if (cartItem) {
+            window.CartManager.updateQuantity(parseInt(id), cartItem.quantity - 1, specs);
+          }
+        }
+
+        if (plusBtn) {
+          const id = plusBtn.dataset.id;
+          const specs = JSON.parse(plusBtn.dataset.specs);
+          const cartItem = window.CartManager.getCart().find(i => i.id === parseInt(id) && JSON.stringify(i.selectedSpecs) === JSON.stringify(specs));
+          if (cartItem) {
+            window.CartManager.updateQuantity(parseInt(id), cartItem.quantity + 1, specs);
+          }
+        }
+
+        if (removeBtn) {
+          const id = removeBtn.dataset.id;
+          const specs = JSON.parse(removeBtn.dataset.specs);
+          window.CartManager.removeItem(parseInt(id), specs);
+        }
+      });
+
+      // Apply Promo Code submit click
+      document.querySelector('.js-apply-promo-btn').addEventListener('click', () => {
+        const val = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+        const successMsg = document.querySelector('.js-promo-success-msg');
+        
+        if (val === "SAVE10" || val === "WELCOME5") {
+          activePromo = val;
+          successMsg.style.display = 'block';
+          successMsg.className = "text-success small mt-1";
+          successMsg.textContent = `Promo code "${val}" applied successfully!`;
+          window.UiManager.showToast(`Applied promo coupon "${val}"`, "success");
+          calculateSummary();
+        } else if (val === "") {
+          activePromo = "";
+          successMsg.style.display = 'none';
+          calculateSummary();
+        } else {
+          activePromo = "";
+          successMsg.style.display = 'block';
+          successMsg.className = "text-danger small mt-1";
+          successMsg.textContent = "Invalid promotion code. Try SAVE10 or WELCOME5.";
+          window.UiManager.showToast("Invalid promo code", "danger");
+          calculateSummary();
+        }
+      });
+
+      // Proceed to Checkout button redirection
+      document.getElementById('btn-proceed-checkout').addEventListener('click', () => {
+        const user = window.AuthManager.getCurrentUser();
+        if (user) {
+          // If a promo code was entered, save it in session storage for checkout
+          if (activePromo !== "") {
+            sessionStorage.setItem('cf_active_promo', activePromo);
+          } else {
+            sessionStorage.removeItem('cf_active_promo');
+          }
+          window.location.href = 'checkout.html';
+        } else {
+          // Redirect to auth page and save checkout routing
+          window.UiManager.showToast("Please log in to continue to checkout", "warning");
+          setTimeout(() => {
+            window.location.href = 'auth.html?redirect=checkout.html';
+          }, 800);
+        }
+      });
+
+      // Initial run
+      renderCartPage();
+    });
+  </script>
+</body>
+
+</html>
