@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login / Register | CommerceFlow</title>
+
+  <!-- Bootstrap 5.3.2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="src/css/style.css">
+  <style>
+    .auth-card {
+      max-width: 480px;
+      width: 100%;
+      margin: 3rem auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION NAVBAR START -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top cf-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="image/logo.png" width="34" height="34" alt="CommerceFlow logo">
+        <span>CommerceFlow</span>
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars-staggered text-dark"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <form class="d-flex mx-auto search-container my-3 my-lg-0 js-search-form">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input class="form-control search-input js-search-input w-100" type="search" placeholder="Search products..." aria-label="Search">
+        </form>
+
+        <div class="d-flex align-items-center gap-3 justify-content-end">
+          <a href="catalog.html" class="nav-link fw-semibold px-2">Catalog</a>
+          
+          <a href="dashboard.html?tab=wishlist" class="nav-action-btn" aria-label="Wishlist">
+            <i class="fa-regular fa-heart fa-lg"></i>
+            <span class="badge-count js-wishlist-count" style="display: none;">0</span>
+          </a>
+
+          <a href="cart.html" class="nav-action-btn" aria-label="Shopping Cart">
+            <i class="fa-solid fa-bag-shopping fa-lg"></i>
+            <span class="badge-count js-cart-count" style="display: none;">0</span>
+          </a>
+
+          <div class="js-auth-nav-container"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- NAVIGATION NAVBAR END -->
+
+  <!-- AUTH MAIN CONTENT START -->
+  <main class="container py-4">
+    <div class="card border-0 shadow-lg bg-white p-4 rounded-3 auth-card">
+      
+      <!-- Nav Tabs -->
+      <ul class="nav nav-tabs nav-justified mb-4" id="authTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active fw-bold py-2.5 fs-6" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane" type="button" role="tab" aria-controls="login-pane" aria-selected="true">
+            <i class="fa-solid fa-right-to-bracket me-2 text-primary"></i> Sign In
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link fw-bold py-2.5 fs-6" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-pane" type="button" role="tab" aria-controls="register-pane" aria-selected="false">
+            <i class="fa-solid fa-user-plus me-2 text-primary"></i> Register
+          </button>
+        </li>
+      </ul>
+
+      <!-- Tab Panes -->
+      <div class="tab-content" id="authTabsContent">
+        
+        <!-- PANE: SIGN IN -->
+        <div class="tab-pane fade show active" id="login-pane" role="tabpanel" aria-labelledby="login-tab">
+          <form id="form-login" novalidate>
+            <div class="mb-3">
+              <label for="loginEmail" class="form-label small fw-semibold">Email Address</label>
+              <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com" required>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label for="loginPassword" class="form-label small fw-semibold mb-0">Password</label>
+                <button type="button" class="btn btn-link p-0 small text-decoration-none js-toggle-forgot" style="font-size: 0.8rem;">Forgot Password?</button>
+              </div>
+              <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required minlength="6">
+              <div class="invalid-feedback">Password must be at least 6 characters.</div>
+            </div>
+
+            <div class="mb-4 form-check">
+              <input type="checkbox" class="form-check-input" id="rememberMe" checked>
+              <label class="form-check-label small text-muted" for="rememberMe">Remember my session</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2.5 js-login-submit" id="btn-login">
+              <span class="js-login-btn-text">Sign In</span>
+              <span class="spinner-border spinner-border-sm ms-2 js-login-btn-spinner" role="status" style="display: none;"></span>
+            </button>
+          </form>
+
+          <div class="alert alert-info mt-4 mb-0 small">
+            <strong>Testing Account Credentials:</strong><br>
+            Email: <code class="text-dark">tester@example.com</code><br>
+            Password: <code class="text-dark">password123</code>
+          </div>
+        </div>
+
+        <!-- PANE: REGISTER -->
+        <div class="tab-pane fade" id="register-pane" role="tabpanel" aria-labelledby="register-tab">
+          <form id="form-register" novalidate>
+            <div class="mb-3">
+              <label for="regName" class="form-label small fw-semibold">Full Name</label>
+              <input type="text" class="form-control" id="regName" placeholder="e.g. John Doe" required>
+              <div class="invalid-feedback">Please enter your full name.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="regEmail" class="form-label small fw-semibold">Email Address</label>
+              <input type="email" class="form-control" id="regEmail" placeholder="name@example.com" required>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="regPassword" class="form-label small fw-semibold">Password</label>
+              <input type="password" class="form-control" id="regPassword" placeholder="••••••••" required minlength="6">
+              <div class="invalid-feedback">Password must be at least 6 characters.</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="regConfirmPassword" class="form-label small fw-semibold">Confirm Password</label>
+              <input type="password" class="form-control" id="regConfirmPassword" placeholder="••••••••" required minlength="6">
+              <div class="invalid-feedback">Confirm password must match the above field.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2.5 js-register-submit" id="btn-register-submit">
+              <span class="js-reg-btn-text">Create Account</span>
+              <span class="spinner-border spinner-border-sm ms-2 js-reg-btn-spinner" role="status" style="display: none;"></span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Modal: Forgot Password recovery simulate -->
+    <div class="modal fade" id="forgotModal" tabindex="-1" aria-labelledby="forgotModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0 pb-0">
+            <h3 class="modal-title h5 fw-bold" id="forgotModalLabel">Reset Password</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form class="js-forgot-form">
+            <div class="modal-body">
+              <p class="text-muted small">Enter your email and we'll transmit a secure link to reset your account password.</p>
+              <div class="mb-3">
+                <label for="forgotEmail" class="form-label small fw-semibold">Email Address</label>
+                <input type="email" class="form-control" id="forgotEmail" placeholder="name@example.com" required>
+              </div>
+            </div>
+            <div class="modal-footer border-top-0 pt-0">
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-sm btn-primary py-2 px-3">Send Link</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <!-- AUTH MAIN CONTENT END -->
+
+  <!-- FOOTER START -->
+  <footer class="footer py-5 mt-auto">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="navbar-brand text-white mb-3 d-inline-flex align-items-center gap-2" href="#">
+            <img src="image/logo.png" width="30" height="30" alt="logo">
+            <span>CommerceFlow</span>
+          </a>
+          <p class="small text-muted mt-2">CommerceFlow is a premium demo e-commerce store built to showcase state-of-the-art layout aesthetics, client-side caching, and search sorting workflows.</p>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2 offset-lg-1">
+          <h5>Shop Pages</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="catalog.html">Full Catalog</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2">
+          <h5>User Account</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="dashboard.html">My Dashboard</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <h5>Help & Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#">Shipping FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-4 border-slate-700">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small">
+        <p class="mb-0">&copy; 2024 CommerceFlow, Inc. All rights reserved.</p>
+        <p class="mb-0">Created by <a href="https://github.com/Self-Lakshh" target="_blank" class="text-white text-decoration-underline">Self-Lakshh</a></p>
+      </div>
+    </div>
+  </footer>
+  <!-- FOOTER END -->
+
+  <!-- Bootstrap 5.3.2 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <!-- Core App Scripts -->
+  <script src="src/js/products.js"></script>
+  <script src="src/js/ui.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/wishlist.js"></script>
+  <script src="src/js/auth.js"></script>
+  <script src="src/js/checkout.js"></script>
+  <script src="src/js/app.js"></script>
+
+  <!-- Auth forms script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectTarget = urlParams.get('redirect') || 'dashboard.html';
+
+      // Redirect immediately if already logged in
+      if (window.AuthManager.getCurrentUser()) {
+        window.location.href = redirectTarget;
+      }
+
+      // Handle Sign In submission
+      const loginForm = document.getElementById('form-login');
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const emailInput = document.getElementById('loginEmail');
+        const passInput = document.getElementById('loginPassword');
+        
+        let isValid = true;
+        
+        // Custom validations
+        if (!emailInput.value.includes('@') || emailInput.value.length < 5) {
+          emailInput.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          emailInput.classList.remove('is-invalid');
+        }
+
+        if (passInput.value.length < 6) {
+          passInput.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          passInput.classList.remove('is-invalid');
+        }
+
+        if (isValid) {
+          // Toggle spinner state
+          const btnText = document.querySelector('.js-login-btn-text');
+          const btnSpinner = document.querySelector('.js-login-btn-spinner');
+          const loginBtn = document.getElementById('btn-login');
+          
+          loginBtn.disabled = true;
+          btnText.style.display = 'none';
+          btnSpinner.style.display = 'inline-block';
+
+          setTimeout(() => {
+            const res = window.AuthManager.login(emailInput.value, passInput.value);
+            
+            // Revert spinner status
+            loginBtn.disabled = false;
+            btnText.style.display = 'inline-block';
+            btnSpinner.style.display = 'none';
+
+            if (res.success) {
+              window.location.href = redirectTarget;
+            } else {
+              window.UiManager.showToast(res.message, "danger");
+              passInput.classList.add('is-invalid');
+            }
+          }, 1000); // 1s mock authentication lag
+        }
+      });
+
+      // Handle Registration submission
+      const regForm = document.getElementById('form-register');
+      regForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nameInput = document.getElementById('regName');
+        const emailInput = document.getElementById('regEmail');
+        const passInput = document.getElementById('regPassword');
+        const confirmInput = document.getElementById('regConfirmPassword');
+
+        let isValid = true;
+
+        if (nameInput.value.trim() === "") {
+          nameInput.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          nameInput.classList.remove('is-invalid');
+        }
+
+        if (!emailInput.value.includes('@') || emailInput.value.length < 5) {
+          emailInput.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          emailInput.classList.remove('is-invalid');
+        }
+
+        if (passInput.value.length < 6) {
+          passInput.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          passInput.classList.remove('is-invalid');
+        }
+
+        if (confirmInput.value !== passInput.value) {
+          confirmInput.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          confirmInput.classList.remove('is-invalid');
+        }
+
+        if (isValid) {
+          const btnText = document.querySelector('.js-reg-btn-text');
+          const btnSpinner = document.querySelector('.js-reg-btn-spinner');
+          const regBtn = document.getElementById('btn-register-submit');
+
+          regBtn.disabled = true;
+          btnText.style.display = 'none';
+          btnSpinner.style.display = 'inline-block';
+
+          setTimeout(() => {
+            const res = window.AuthManager.register(
+              nameInput.value.trim(),
+              emailInput.value.trim(),
+              passInput.value
+            );
+
+            regBtn.disabled = false;
+            btnText.style.display = 'inline-block';
+            btnSpinner.style.display = 'none';
+
+            if (res.success) {
+              window.location.href = redirectTarget;
+            } else {
+              window.UiManager.showToast(res.message, "danger");
+              emailInput.classList.add('is-invalid');
+            }
+          }, 1200); // 1.2s lag
+        }
+      });
+
+      // Wire Forgot Password Modal
+      const modalElement = document.getElementById('forgotModal');
+      const bsModal = new bootstrap.Modal(modalElement);
+      
+      document.querySelector('.js-toggle-forgot').addEventListener('click', () => {
+        bsModal.show();
+      });
+
+      document.querySelector('.js-forgot-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('forgotEmail').value;
+        bsModal.hide();
+        window.UiManager.showToast(`Password recovery link dispatched to ${email}`, "success");
+        document.getElementById('forgotEmail').value = "";
+      });
+    });
+  </script>
+</body>
+
+</html>
