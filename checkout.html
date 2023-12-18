@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout | CommerceFlow</title>
+
+  <!-- Bootstrap 5.3.2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="src/css/style.css">
+</head>
+
+<body>
+
+  <!-- NAVIGATION NAVBAR START -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top cf-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="image/logo.png" width="34" height="34" alt="CommerceFlow logo">
+        <span>CommerceFlow</span>
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars-staggered text-dark"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <div class="d-flex mx-auto search-container my-3 my-lg-0">
+          <!-- Non-active search bar on checkout for focus -->
+        </div>
+
+        <div class="d-flex align-items-center gap-3 justify-content-end">
+          <a href="catalog.html" class="nav-link fw-semibold px-2">Catalog</a>
+          <a href="cart.html" class="nav-action-btn" aria-label="Shopping Cart">
+            <i class="fa-solid fa-bag-shopping fa-lg"></i>
+            <span class="badge-count js-cart-count" style="display: none;">0</span>
+          </a>
+          <div class="js-auth-nav-container"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- NAVIGATION NAVBAR END -->
+
+  <!-- CHECKOUT WIZARD MAIN -->
+  <main class="container my-4 pb-5">
+    
+    <!-- STEP PROGRESS NODES -->
+    <div class="checkout-steps py-2" id="checkout-progress-wrapper">
+      <div class="checkout-step-progress" id="step-progress-bar" style="width: 0%;"></div>
+      
+      <div class="checkout-step-node active" id="step-node-1">
+        <div class="step-number">1</div>
+        <span class="step-label">Shipping</span>
+      </div>
+      <div class="checkout-step-node" id="step-node-2">
+        <div class="step-number">2</div>
+        <span class="step-label">Payment</span>
+      </div>
+      <div class="checkout-step-node" id="step-node-3">
+        <div class="step-number">3</div>
+        <span class="step-label">Review</span>
+      </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="row g-4" id="checkout-main-grid">
+      
+      <!-- Left Column: Step Panels -->
+      <section class="col-lg-8">
+        
+        <!-- STEP 1: SHIPPING PANEL -->
+        <div class="card border-0 shadow-sm bg-white p-4 rounded-3 mb-4 js-step-panel" id="panel-shipping">
+          <h2 class="h4 mb-4 border-bottom pb-2">Shipping Information</h2>
+          
+          <!-- Select Saved Address Option -->
+          <div id="saved-addresses-block" class="mb-4" style="display:none;">
+            <label class="form-label small fw-bold text-muted text-uppercase mb-3">Saved Addresses</label>
+            <div class="row g-3" id="saved-addresses-list">
+              <!-- Injected saved address cards -->
+            </div>
+            <div class="mt-3">
+              <button class="btn btn-sm btn-outline-primary js-use-new-address-btn" type="button"><i class="fa-solid fa-plus me-1"></i> Add New Address</button>
+            </div>
+          </div>
+
+          <!-- Address Form -->
+          <form id="form-address" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="shipName" class="form-label small fw-semibold">Recipient Full Name</label>
+                <input type="text" class="form-control" id="shipName" required>
+                <div class="invalid-feedback">Please enter the recipient name.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="shipPhone" class="form-label small fw-semibold">Contact Phone Number</label>
+                <input type="tel" class="form-control" id="shipPhone" placeholder="e.g. +1 (555) 000-0000" required>
+                <div class="invalid-feedback">Please enter a phone number.</div>
+              </div>
+              <div class="col-12">
+                <label for="shipStreet" class="form-label small fw-semibold">Street Address</label>
+                <input type="text" class="form-control" id="shipStreet" placeholder="Apt, Suite, Street name" required>
+                <div class="invalid-feedback">Please enter the delivery address.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="shipCity" class="form-label small fw-semibold">City</label>
+                <input type="text" class="form-control" id="shipCity" required>
+                <div class="invalid-feedback">Please enter a city.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="shipState" class="form-label small fw-semibold">State / Region</label>
+                <input type="text" class="form-control" id="shipState" required>
+                <div class="invalid-feedback">Please enter a state.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="shipZip" class="form-label small fw-semibold">ZIP / Postal Code</label>
+                <input type="text" class="form-control" id="shipZip" required>
+                <div class="invalid-feedback">Please enter a ZIP code.</div>
+              </div>
+            </div>
+            
+            <div class="form-check mt-3">
+              <input class="form-check-input" type="checkbox" id="saveAddressCheckbox">
+              <label class="form-check-label small text-muted" for="saveAddressCheckbox">Save this address to my profile settings</label>
+            </div>
+          </form>
+
+          <!-- Shipping methods choice -->
+          <div class="mt-4 pt-4 border-top">
+            <h3 class="h6 fw-bold mb-3">Shipping Speed</h3>
+            <div class="form-check p-3 border rounded-3 mb-2 bg-light d-flex align-items-center">
+              <input class="form-check-input ms-0 me-3" type="radio" name="shippingSpeed" id="speedStandard" value="Standard Delivery" checked>
+              <label class="form-check-label w-100" for="speedStandard">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong class="d-block text-dark">Standard Delivery</strong>
+                    <span class="text-muted small">Deliver within 3-5 business days</span>
+                  </div>
+                  <span class="fw-bold text-success js-shipping-cost-label">Free</span>
+                </div>
+              </label>
+            </div>
+            <div class="form-check p-3 border rounded-3 bg-light d-flex align-items-center">
+              <input class="form-check-input ms-0 me-3" type="radio" name="shippingSpeed" id="speedExpress" value="Express Delivery">
+              <label class="form-check-label w-100" for="speedExpress">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong class="d-block text-dark">Express Courier</strong>
+                    <span class="text-muted small">Guaranteed delivery next day</span>
+                  </div>
+                  <span class="fw-bold text-dark">+$25.00</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+            <button class="btn btn-primary px-4 py-2 js-btn-goto-step" data-target="2">Continue to Payment <i class="fa-solid fa-arrow-right ms-2"></i></button>
+          </div>
+        </div>
+
+        <!-- STEP 2: PAYMENT PANEL -->
+        <div class="card border-0 shadow-sm bg-white p-4 rounded-3 mb-4 js-step-panel" id="panel-payment" style="display:none;">
+          <h2 class="h4 mb-4 border-bottom pb-2">Payment Details</h2>
+
+          <form id="form-payment" novalidate>
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="ccName" class="form-label small fw-semibold">Name on Card</label>
+                <input type="text" class="form-control" id="ccName" placeholder="e.g. John Doe" required>
+                <div class="invalid-feedback">Please enter the cardholder name.</div>
+              </div>
+              <div class="col-12">
+                <label for="ccNum" class="form-label small fw-semibold">Credit Card Number</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa-regular fa-credit-card"></i></span>
+                  <input type="text" class="form-control" id="ccNum" placeholder="1111-2222-3333-4444" required>
+                  <div class="invalid-feedback">Please enter a valid credit card number.</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="ccExpiry" class="form-label small fw-semibold">Expiration Date</label>
+                <input type="text" class="form-control" id="ccExpiry" placeholder="MM/YY" required>
+                <div class="invalid-feedback">Expiry MM/YY required.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="ccCvv" class="form-label small fw-semibold">CVV Code</label>
+                <input type="password" class="form-control" id="ccCvv" placeholder="•••" maxlength="4" required>
+                <div class="invalid-feedback">3 or 4 digit security code required.</div>
+              </div>
+            </div>
+          </form>
+
+          <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+            <button class="btn btn-outline-secondary px-4 py-2 js-btn-goto-step" data-target="1"><i class="fa-solid fa-arrow-left me-2"></i> Back</button>
+            <button class="btn btn-primary px-4 py-2 js-btn-goto-step" data-target="3">Review Order <i class="fa-solid fa-arrow-right ms-2"></i></button>
+          </div>
+        </div>
+
+        <!-- STEP 3: REVIEW PANEL -->
+        <div class="card border-0 shadow-sm bg-white p-4 rounded-3 mb-4 js-step-panel" id="panel-review" style="display:none;">
+          <h2 class="h4 mb-4 border-bottom pb-2">Final Review</h2>
+
+          <!-- Information Preview Cards -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <div class="border p-3 rounded bg-light">
+                <h3 class="h6 fw-bold text-uppercase text-muted mb-2">Delivery Target</h3>
+                <div id="review-shipping-details">
+                  <!-- details -->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="border p-3 rounded bg-light">
+                <h3 class="h6 fw-bold text-uppercase text-muted mb-2">Method & Payment</h3>
+                <div id="review-method-details">
+                  <!-- details -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Items Preview Table -->
+          <h3 class="h6 fw-bold text-muted text-uppercase mb-3">Order Items</h3>
+          <div class="table-responsive border-bottom mb-4">
+            <table class="table table-sm align-middle">
+              <thead>
+                <tr>
+                  <th scope="col" class="py-2 text-muted border-0">Item</th>
+                  <th scope="col" class="py-2 text-muted border-0 text-center">Qty</th>
+                  <th scope="col" class="py-2 text-muted border-0 text-end">Price</th>
+                </tr>
+              </thead>
+              <tbody id="review-items-table">
+                <!-- Items list -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-outline-secondary px-4 py-2 js-btn-goto-step" data-target="2"><i class="fa-solid fa-arrow-left me-2"></i> Back</button>
+            <button class="btn btn-success px-5 py-2.5 js-btn-place-order" id="btn-place-order">
+              <span class="js-place-order-text">Place Order <i class="fa-solid fa-circle-check ms-2"></i></span>
+              <span class="spinner-border spinner-border-sm ms-2 js-place-order-spinner" role="status" style="display: none;"></span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Order Totals Summary -->
+      <section class="col-lg-4">
+        <div class="card border-0 shadow-sm bg-white p-4 rounded-3 position-sticky" style="top: 100px;">
+          <h2 class="h5 mb-3 border-bottom pb-2">Order Price Summary</h2>
+          
+          <div class="d-flex justify-content-between mb-2 small text-muted">
+            <span>Subtotal</span>
+            <span id="checkout-subtotal">$0.00</span>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2 small text-muted">
+            <span>Shipping</span>
+            <span id="checkout-shipping">$0.00</span>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2 small text-muted">
+            <span>Sales Tax (10%)</span>
+            <span id="checkout-tax">$0.00</span>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2 small text-success js-discount-row" style="display: none !important;">
+            <span>Discount (<span class="js-active-promo-code"></span>)</span>
+            <span id="checkout-discount">-$0.00</span>
+          </div>
+
+          <div class="d-flex justify-content-between border-top pt-3 fw-bold text-dark fs-5">
+            <span>Total</span>
+            <span id="checkout-total">$0.00</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ORDER CONFIRMATION VIEW (SUCCESS STATE HIDDEN INITIAL) -->
+    <div id="checkout-success-grid" style="display:none;" class="max-width-700 mx-auto text-center py-5">
+      <div class="card border-0 shadow-lg p-5 rounded-3 bg-white">
+        <div class="mb-4 text-center">
+          <div class="d-inline-flex align-items-center justify-content-center bg-success-subtle text-success rounded-circle" style="width: 80px; height: 80px;">
+            <i class="fa-solid fa-circle-check fa-3x"></i>
+          </div>
+        </div>
+        
+        <h2 class="h3 fw-bold text-dark">Order Confirmed!</h2>
+        <p class="text-muted mt-2">Thank you for your purchase. We are processing your delivery.</p>
+        
+        <div class="card p-3 border-dashed rounded bg-light my-4 text-start">
+          <div class="row g-2 small">
+            <div class="col-sm-6">
+              <span class="text-muted d-block">Invoice Order Number</span>
+              <strong class="text-dark fs-6" id="success-order-num">CF-000000-000</strong>
+            </div>
+            <div class="col-sm-6">
+              <span class="text-muted d-block">Expected Delivery Target</span>
+              <strong class="text-dark fs-6" id="success-expected-delivery">Dec 15, 2023</strong>
+            </div>
+            <div class="col-12 mt-2 pt-2 border-top">
+              <span class="text-muted d-block">Shipping Address Details</span>
+              <strong class="text-dark" id="success-shipping-address">Address here</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3">
+          <a href="dashboard.html?tab=orders" class="btn btn-primary px-4 py-2.5">Track Order History</a>
+          <a href="catalog.html" class="btn btn-outline-secondary px-4 py-2.5">Back to Store</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <!-- CHECKOUT WIZARD END -->
+
+  <!-- FOOTER START -->
+  <footer class="footer py-5 mt-auto">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="navbar-brand text-white mb-3 d-inline-flex align-items-center gap-2" href="#">
+            <img src="image/logo.png" width="30" height="30" alt="logo">
+            <span>CommerceFlow</span>
+          </a>
+          <p class="small text-muted mt-2">CommerceFlow is a premium demo e-commerce store built to showcase state-of-the-art layout aesthetics, client-side caching, and search sorting workflows.</p>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2 offset-lg-1">
+          <h5>Shop Pages</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="catalog.html">Full Catalog</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2">
+          <h5>User Account</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="dashboard.html">My Dashboard</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <h5>Help & Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#">Shipping FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-4 border-slate-700">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small">
+        <p class="mb-0">&copy; 2024 CommerceFlow, Inc. All rights reserved.</p>
+        <p class="mb-0">Created by <a href="https://github.com/Self-Lakshh" target="_blank" class="text-white text-decoration-underline">Self-Lakshh</a></p>
+      </div>
+    </div>
+  </footer>
+  <!-- FOOTER END -->
+
+  <!-- Bootstrap 5.3.2 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <!-- Core App Scripts -->
+  <script src="src/js/products.js"></script>
+  <script src="src/js/ui.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/wishlist.js"></script>
+  <script src="src/js/auth.js"></script>
+  <script src="src/js/checkout.js"></script>
+  <script src="src/js/app.js"></script>
+
+  <!-- Checkout execution script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Guard Clauses
+      const user = window.AuthManager.getCurrentUser();
+      if (!user) {
+        window.location.href = 'auth.html?redirect=checkout.html';
+        return;
+      }
+
+      const cartItems = window.CartManager.getCart();
+      if (cartItems.length === 0) {
+        window.UiManager.showToast("Your cart is empty. Please add products to check out.", "warning");
+        setTimeout(() => {
+          window.location.href = 'cart.html';
+        }, 1200);
+        return;
+      }
+
+      // Check for saved coupon from cart
+      let promoCode = sessionStorage.getItem('cf_active_promo') || "";
+
+      // Wizard Steps state
+      let activeStep = 1;
+      let shippingAddress = null;
+      let shippingMethod = "Standard Delivery";
+      let paymentMethod = "Credit Card";
+
+      // Elements
+      const panels = document.querySelectorAll('.js-step-panel');
+      const nodes = document.querySelectorAll('.checkout-step-node');
+      const progressBar = document.getElementById('step-progress-bar');
+      const orderBtn = document.getElementById('btn-place-order');
+
+      // Populate layout subtotal pricing initial
+      syncPricingTotals();
+
+      // Setup Saved Addresses block if available
+      syncSavedAddresses();
+
+      function syncSavedAddresses() {
+        const savedAddressesBlock = document.getElementById('saved-addresses-block');
+        const addressesList = document.getElementById('saved-addresses-list');
+        const formAddress = document.getElementById('form-address');
+
+        if (user.addresses && user.addresses.length > 0) {
+          savedAddressesBlock.style.display = 'block';
+          formAddress.style.display = 'none'; // hide manual entry initially
+
+          let cardsHtml = "";
+          user.addresses.forEach((addr, idx) => {
+            const isChecked = addr.isDefault ? 'checked' : '';
+            if (addr.isDefault) {
+              shippingAddress = addr; // Auto set default address
+            }
+            cardsHtml += `
+              <div class="col-md-6">
+                <div class="card p-3 border h-100 position-relative address-select-card cursor-pointer js-addr-card ${addr.isDefault ? 'border-primary bg-light-subtle' : ''}" data-id="${addr.id}">
+                  <div class="form-check">
+                    <input class="form-check-input js-addr-radio" type="radio" name="addrRadio" id="addr-${addr.id}" value="${addr.id}" ${isChecked}>
+                    <label class="form-check-label fw-bold text-dark small" for="addr-${addr.id}">${addr.title}</label>
+                  </div>
+                  <div class="small text-muted mt-2">
+                    <span class="d-block">${addr.street}</span>
+                    <span class="d-block">${addr.city}, ${addr.state} ${addr.zip}</span>
+                    <span class="d-block">${addr.country}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+          addressesList.innerHTML = cardsHtml;
+
+          // Wire Radio address selection changes
+          addressesList.querySelectorAll('.js-addr-card').forEach(card => {
+            card.addEventListener('click', () => {
+              const radio = card.querySelector('.js-addr-radio');
+              radio.checked = true;
+              
+              // Highlight visual card
+              addressesList.querySelectorAll('.js-addr-card').forEach(c => {
+                c.classList.remove('border-primary', 'bg-light-subtle');
+              });
+              card.classList.add('border-primary', 'bg-light-subtle');
+
+              // Set address
+              const addrId = parseInt(card.dataset.id);
+              shippingAddress = user.addresses.find(a => a.id === addrId);
+            });
+          });
+
+          // Wire "Use New Address" button click
+          document.querySelector('.js-use-new-address-btn').addEventListener('click', () => {
+            savedAddressesBlock.style.display = 'none';
+            formAddress.style.display = 'block';
+            shippingAddress = null; // force user to type or save
+          });
+        }
+      }
+
+      // Sync Pricing totals
+      function syncPricingTotals() {
+        const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        // Shipping cost logic
+        let shippingCost = 0;
+        if (shippingMethod === "Express Delivery") {
+          shippingCost = 25;
+        } else {
+          // Standard Delivery
+          shippingCost = subtotal > 150 ? 0 : 15;
+        }
+        
+        // Cost tag labels update in step 1 UI
+        document.querySelector('.js-shipping-cost-label').textContent = subtotal > 150 ? "Free" : "$15.00";
+
+        // Tax
+        const tax = parseFloat((subtotal * 0.1).toFixed(2));
+        
+        // Discount
+        let discount = 0;
+        if (promoCode === "SAVE10") {
+          discount = parseFloat((subtotal * 0.1).toFixed(2));
+        } else if (promoCode === "WELCOME5") {
+          discount = 5;
+        }
+
+        const total = parseFloat((subtotal + shippingCost + tax - discount).toFixed(2));
+
+        // Update Summary cards
+        document.getElementById('checkout-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('checkout-shipping').textContent = shippingCost === 0 ? 'Free Shipping' : `$${shippingCost.toFixed(2)}`;
+        document.getElementById('checkout-tax').textContent = `$${tax.toFixed(2)}`;
+        document.getElementById('checkout-total').textContent = `$${total.toFixed(2)}`;
+
+        const discountRow = document.querySelector('.js-discount-row');
+        if (discount > 0) {
+          discountRow.style.setProperty('display', 'flex', 'important');
+          document.querySelector('.js-active-promo-code').textContent = promoCode;
+          document.getElementById('checkout-discount').textContent = `-$${discount.toFixed(2)}`;
+        } else {
+          discountRow.style.setProperty('display', 'none', 'important');
+        }
+      }
+
+      // Handle Shipping delivery speed radios changes
+      document.querySelectorAll('name="shippingSpeed"').forEach(radio => {
+        // Wait, standard selector name check in standard javascript
+      });
+      document.getElementById('speedStandard').addEventListener('change', () => {
+        shippingMethod = "Standard Delivery";
+        syncPricingTotals();
+      });
+      document.getElementById('speedExpress').addEventListener('change', () => {
+        shippingMethod = "Express Delivery";
+        syncPricingTotals();
+      });
+
+      // Wizard back / forward navigation triggers
+      document.querySelectorAll('.js-btn-goto-step').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = parseInt(btn.dataset.target);
+          if (target > activeStep) {
+            // Validate current panel inputs before moving forward
+            if (!validateStep(activeStep)) return;
+          }
+          navigateToStep(target);
+        });
+      });
+
+      // Form validation rules
+      function validateStep(step) {
+        if (step === 1) {
+          // Validate Address
+          const addressForm = document.getElementById('form-address');
+          if (addressForm.style.display !== 'none') {
+            // Manual Address Entry validation
+            if (!addressForm.checkValidity()) {
+              addressForm.classList.add('was-validated');
+              window.UiManager.showToast("Please fill all required shipping fields", "warning");
+              return false;
+            }
+            
+            // Build temporary address object
+            shippingAddress = {
+              street: document.getElementById('shipStreet').value.trim(),
+              city: document.getElementById('shipCity').value.trim(),
+              state: document.getElementById('shipState').value.trim(),
+              zip: document.getElementById('shipZip').value.trim(),
+              country: "United States"
+            };
+
+            // If user checked save address
+            if (document.getElementById('saveAddressCheckbox').checked) {
+              window.AuthManager.saveAddress({
+                title: "Saved Address",
+                street: shippingAddress.street,
+                city: shippingAddress.city,
+                state: shippingAddress.state,
+                zip: shippingAddress.zip,
+                country: shippingAddress.country,
+                isDefault: user.addresses.length === 0 // default if first
+              });
+            }
+          } else {
+            // Using Saved Address
+            if (!shippingAddress) {
+              window.UiManager.showToast("Please select a shipping address", "warning");
+              return false;
+            }
+          }
+          return true;
+        }
+
+        if (step === 2) {
+          // Validate Payment Form
+          const paymentForm = document.getElementById('form-payment');
+          if (!paymentForm.checkValidity()) {
+            paymentForm.classList.add('was-validated');
+            window.UiManager.showToast("Please fill all required card details", "warning");
+            return false;
+          }
+          
+          paymentMethod = `Credit Card (•••• ${document.getElementById('ccNum').value.slice(-4)})`;
+          return true;
+        }
+        return true;
+      }
+
+      function navigateToStep(step) {
+        activeStep = step;
+
+        // Toggle active panels
+        panels.forEach(p => p.style.display = 'none');
+        if (step === 1) document.getElementById('panel-shipping').style.display = 'block';
+        else if (step === 2) document.getElementById('panel-payment').style.display = 'block';
+        else if (step === 3) {
+          document.getElementById('panel-review').style.display = 'block';
+          populateReviewPane();
+        }
+
+        // Adjust wizard step node highlighting
+        nodes.forEach((node, idx) => {
+          node.classList.remove('active', 'completed');
+          if (idx + 1 === step) {
+            node.classList.add('active');
+          } else if (idx + 1 < step) {
+            node.classList.add('completed');
+          }
+        });
+
+        // Update progress line length
+        const progressPercentage = ((step - 1) / (nodes.length - 1)) * 100;
+        progressBar.style.width = `${progressPercentage}%`;
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Populate Step 3 review text blocks
+      function populateReviewPane() {
+        // Shipping Address summary text
+        const addressDetails = document.getElementById('review-shipping-details');
+        const rName = document.getElementById('shipName').value.trim() || user.name;
+        const rPhone = document.getElementById('shipPhone').value.trim() || user.phone || "";
+        addressDetails.innerHTML = `
+          <strong>${rName}</strong><br>
+          ${shippingAddress.street}<br>
+          ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip}<br>
+          ${rPhone ? `Phone: ${rPhone}` : ""}
+        `;
+
+        // Method & payment details
+        document.getElementById('review-method-details').innerHTML = `
+          <strong>Speed:</strong> ${shippingMethod}<br>
+          <strong>Method:</strong> ${paymentMethod}
+        `;
+
+        // Items list preview
+        const itemsTable = document.getElementById('review-items-table');
+        let itemsHtml = "";
+        cartItems.forEach(item => {
+          itemsHtml += `
+            <tr>
+              <td class="py-2 border-0 small">
+                <strong class="text-dark">${item.title}</strong>
+                <span class="d-block text-muted" style="font-size:0.75rem;">Color: ${item.selectedSpecs.Color || 'Standard'}</span>
+              </td>
+              <td class="py-2 border-0 text-center small">${item.quantity}</td>
+              <td class="py-2 border-0 text-end fw-bold small">$${(item.price * item.quantity)}</td>
+            </tr>
+          `;
+        });
+        itemsTable.innerHTML = itemsHtml;
+      }
+
+      // Handle order placement action submit
+      orderBtn.addEventListener('click', () => {
+        const placeBtnText = document.querySelector('.js-place-order-text');
+        const placeBtnSpinner = document.querySelector('.js-place-order-spinner');
+
+        orderBtn.disabled = true;
+        placeBtnText.style.display = 'none';
+        placeBtnSpinner.style.display = 'inline-block';
+
+        setTimeout(() => {
+          const res = window.CheckoutManager.placeOrder({
+            shippingAddress: shippingAddress,
+            shippingMethod: shippingMethod,
+            paymentMethod: paymentMethod,
+            promoCode: promoCode
+          });
+
+          // Revert button
+          orderBtn.disabled = false;
+          placeBtnText.style.display = 'inline-block';
+          placeBtnSpinner.style.display = 'none';
+
+          if (res.success) {
+            // Hide main panels and show receipt success panel
+            document.getElementById('checkout-main-grid').style.display = 'none';
+            document.getElementById('checkout-progress-wrapper').style.display = 'none';
+            
+            const successGrid = document.getElementById('checkout-success-grid');
+            successGrid.style.display = 'block';
+
+            // Populate Success screen values
+            document.getElementById('success-order-num').textContent = res.orderNumber;
+            
+            const deliveryDays = shippingMethod === "Express Delivery" ? 1 : 4;
+            const deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + deliveryDays);
+            document.getElementById('success-expected-delivery').textContent = deliveryDate.toDateString();
+            
+            document.getElementById('success-shipping-address').textContent = `${shippingAddress.street}, ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip}`;
+            
+            // Clear promo code from session storage
+            sessionStorage.removeItem('cf_active_promo');
+
+          } else {
+            window.UiManager.showToast(res.message, "danger");
+          }
+        }, 1500); // 1.5s transaction auth simulation
+      });
+    });
+  </script>
+</body>
+
+</html>
