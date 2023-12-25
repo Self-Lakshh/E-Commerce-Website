@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Dashboard | CommerceFlow</title>
+
+  <!-- Bootstrap 5.3.2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="src/css/style.css">
+  <style>
+    .dashboard-nav .nav-link {
+      color: var(--cf-slate-700);
+      font-weight: 500;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: var(--transition-fast);
+      border: none;
+      background-color: transparent;
+      width: 100%;
+      text-align: left;
+    }
+    .dashboard-nav .nav-link:hover {
+      background-color: var(--cf-slate-100);
+      color: var(--cf-primary);
+    }
+    .dashboard-nav .nav-link.active {
+      background-color: var(--cf-primary-light) !important;
+      color: var(--cf-primary) !important;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION NAVBAR START -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top cf-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="image/logo.png" width="34" height="34" alt="CommerceFlow logo">
+        <span>CommerceFlow</span>
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars-staggered text-dark"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <form class="d-flex mx-auto search-container my-3 my-lg-0 js-search-form">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input class="form-control search-input js-search-input w-100" type="search" placeholder="Search products..." aria-label="Search">
+        </form>
+
+        <div class="d-flex align-items-center gap-3 justify-content-end">
+          <a href="catalog.html" class="nav-link fw-semibold px-2">Catalog</a>
+          
+          <a href="dashboard.html?tab=wishlist" class="nav-action-btn" aria-label="Wishlist">
+            <i class="fa-regular fa-heart fa-lg"></i>
+            <span class="badge-count js-wishlist-count" style="display: none;">0</span>
+          </a>
+
+          <a href="cart.html" class="nav-action-btn" aria-label="Shopping Cart">
+            <i class="fa-solid fa-bag-shopping fa-lg"></i>
+            <span class="badge-count js-cart-count" style="display: none;">0</span>
+          </a>
+
+          <div class="js-auth-nav-container"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- NAVIGATION NAVBAR END -->
+
+  <!-- BREADCRUMBS START -->
+  <div class="container mt-4 mb-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- BREADCRUMBS END -->
+
+  <!-- DASHBOARD MAIN GRID START -->
+  <main class="container mb-5">
+    <div class="row g-4">
+      
+      <!-- Left sidebar navigation tabs -->
+      <aside class="col-lg-3">
+        <div class="card border-0 shadow-sm bg-white p-3 rounded-3">
+          <div class="text-center py-3 border-bottom mb-3">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="rounded-circle border p-1" width="80" height="80">
+            <h2 class="h5 mt-3 mb-0 fw-bold js-user-display-name">John Doe</h2>
+            <span class="small text-muted js-user-display-email">tester@example.com</span>
+          </div>
+
+          <nav class="nav flex-column gap-1 dashboard-nav" id="dashboardTabs" role="tablist">
+            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-pane" type="button" role="tab" aria-controls="profile-pane" aria-selected="true">
+              <i class="fa-solid fa-circle-user fa-lg"></i> Profile Details
+            </button>
+            <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders-pane" type="button" role="tab" aria-controls="orders-pane" aria-selected="false">
+              <i class="fa-solid fa-box fa-lg"></i> Order History
+            </button>
+            <button class="nav-link" id="addresses-tab" data-bs-toggle="tab" data-bs-target="#addresses-pane" type="button" role="tab" aria-controls="addresses-pane" aria-selected="false">
+              <i class="fa-solid fa-map-location-dot fa-lg"></i> Saved Addresses
+            </button>
+            <button class="nav-link" id="wishlist-tab" data-bs-toggle="tab" data-bs-target="#wishlist-pane" type="button" role="tab" aria-controls="wishlist-pane" aria-selected="false">
+              <i class="fa-solid fa-heart fa-lg"></i> My Wishlist
+            </button>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Right Tab contents -->
+      <section class="col-lg-9">
+        <div class="card border-0 shadow-sm bg-white p-4 rounded-3 h-100">
+          
+          <div class="tab-content" id="dashboardContent">
+            
+            <!-- PANE 1: PROFILE DETAILS -->
+            <div class="tab-pane fade show active" id="profile-pane" role="tabpanel" aria-labelledby="profile-tab">
+              <h2 class="h4 mb-4 border-bottom pb-2">Profile Information</h2>
+              
+              <form id="form-profile" class="max-width-600">
+                <div class="mb-3 row">
+                  <label for="profName" class="col-sm-3 col-form-label small fw-semibold">Full Name</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="profName" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3 row">
+                  <label for="profEmail" class="col-sm-3 col-form-label small fw-semibold">Email Address</label>
+                  <div class="col-sm-9">
+                    <input type="email" class="form-control-plaintext text-muted fw-bold" id="profEmail" readonly>
+                  </div>
+                </div>
+
+                <div class="mb-4 row">
+                  <label for="profPhone" class="col-sm-3 col-form-label small fw-semibold">Phone Number</label>
+                  <div class="col-sm-9">
+                    <input type="tel" class="form-control" id="profPhone" placeholder="Enter contact number">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-9 offset-sm-3">
+                    <button type="submit" class="btn btn-primary px-4 py-2">Save Profile Updates</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- PANE 2: ORDER HISTORY -->
+            <div class="tab-pane fade" id="orders-pane" role="tabpanel" aria-labelledby="orders-tab">
+              <h2 class="h4 mb-4 border-bottom pb-2">Your Orders</h2>
+              <div id="orders-list-container">
+                <!-- Orders dynamic -->
+              </div>
+            </div>
+
+            <!-- PANE 3: SAVED ADDRESSES -->
+            <div class="tab-pane fade" id="addresses-pane" role="tabpanel" aria-labelledby="addresses-tab">
+              <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+                <h2 class="h4 mb-0">Shipping Addresses</h2>
+                <button class="btn btn-sm btn-primary py-2 px-3 js-toggle-address-form"><i class="fa-solid fa-plus me-1"></i> Add New Address</button>
+              </div>
+
+              <!-- Address Form Toggle -->
+              <div id="new-address-form-block" class="card p-3 border rounded-3 mb-4 bg-light" style="display:none;">
+                <h3 class="h6 fw-bold mb-3" id="address-form-title">Create Shipping Address</h3>
+                <form id="form-dashboard-address" novalidate>
+                  <input type="hidden" id="addrId">
+                  <div class="row g-3">
+                    <div class="col-12">
+                      <label for="addrTitle" class="form-label small fw-semibold">Address Label (e.g. Home, Work)</label>
+                      <input type="text" class="form-control form-control-sm" id="addrTitle" placeholder="Home" required>
+                    </div>
+                    <div class="col-12">
+                      <label for="addrStreet" class="form-label small fw-semibold">Street Address</label>
+                      <input type="text" class="form-control form-control-sm" id="addrStreet" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="addrCity" class="form-label small fw-semibold">City</label>
+                      <input type="text" class="form-control form-control-sm" id="addrCity" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="addrState" class="form-label small fw-semibold">State / Region</label>
+                      <input type="text" class="form-control form-control-sm" id="addrState" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="addrZip" class="form-label small fw-semibold">ZIP Code</label>
+                      <input type="text" class="form-control form-control-sm" id="addrZip" required>
+                    </div>
+                  </div>
+                  <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="addrDefaultCheckbox">
+                    <label class="form-check-label small text-muted" for="addrDefaultCheckbox">Mark this as my default shipping address</label>
+                  </div>
+                  <div class="d-flex gap-2 mt-3 justify-content-end">
+                    <button type="button" class="btn btn-sm btn-outline-secondary js-cancel-address-btn">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Save Address</button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Address Grid list -->
+              <div class="row g-3" id="dashboard-addresses-grid">
+                <!-- Address cards injected -->
+              </div>
+            </div>
+
+            <!-- PANE 4: MY WISHLIST -->
+            <div class="tab-pane fade" id="wishlist-pane" role="tabpanel" aria-labelledby="wishlist-tab">
+              <h2 class="h4 mb-4 border-bottom pb-2">Your Wishlist</h2>
+              <div class="row g-4" id="wishlist-grid-container">
+                <!-- Wishlist items injected -->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+  <!-- DASHBOARD MAIN GRID END -->
+
+  <!-- FOOTER START -->
+  <footer class="footer py-5 mt-auto">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="navbar-brand text-white mb-3 d-inline-flex align-items-center gap-2" href="#">
+            <img src="image/logo.png" width="30" height="30" alt="logo">
+            <span>CommerceFlow</span>
+          </a>
+          <p class="small text-muted mt-2">CommerceFlow is a premium demo e-commerce store built to showcase state-of-the-art layout aesthetics, client-side caching, and search sorting workflows.</p>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2 offset-lg-1">
+          <h5>Shop Pages</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="catalog.html">Full Catalog</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-2">
+          <h5>User Account</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="dashboard.html">My Dashboard</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <h5>Help & Support</h5>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#">Shipping FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-4 border-slate-700">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small">
+        <p class="mb-0">&copy; 2024 CommerceFlow, Inc. All rights reserved.</p>
+        <p class="mb-0">Created by <a href="https://github.com/Self-Lakshh" target="_blank" class="text-white text-decoration-underline">Self-Lakshh</a></p>
+      </div>
+    </div>
+  </footer>
+  <!-- FOOTER END -->
+
+  <!-- Bootstrap 5.3.2 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <!-- Core App Scripts -->
+  <script src="src/js/products.js"></script>
+  <script src="src/js/ui.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/wishlist.js"></script>
+  <script src="src/js/auth.js"></script>
+  <script src="src/js/checkout.js"></script>
+  <script src="src/js/app.js"></script>
+
+  <!-- Dashboard manager script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Guard check
+      const user = window.AuthManager.getCurrentUser();
+      if (!user) {
+        window.location.href = 'auth.html';
+        return;
+      }
+
+      // Read current tab from URL Parameter tab (e.g. ?tab=wishlist)
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabParam = urlParams.get('tab');
+      if (tabParam) {
+        const targetTab = document.getElementById(`${tabParam}-tab`);
+        if (targetTab) {
+          setTimeout(() => {
+            bootstrap.Tab.getInstance(targetTab)?.show() || new bootstrap.Tab(targetTab).show();
+          }, 100);
+        }
+      }
+
+      // Listen to auth changes
+      window.addEventListener('cf-auth-updated', () => {
+        syncProfileDisplay();
+      });
+
+      // Synchronize Profile details
+      syncProfileDisplay();
+      renderOrdersHistory();
+      renderAddresses();
+      renderWishlist();
+
+      function syncProfileDisplay() {
+        const u = window.AuthManager.getCurrentUser();
+        if (!u) return;
+
+        // Display Header text
+        document.querySelector('.js-user-display-name').textContent = u.name;
+        document.querySelector('.js-user-display-email').textContent = u.email;
+
+        // Inputs
+        document.getElementById('profName').value = u.name;
+        document.getElementById('profEmail').value = u.email;
+        document.getElementById('profPhone').value = u.phone || "";
+      }
+
+      // Handle Profile update Form submit
+      document.getElementById('form-profile').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const res = window.AuthManager.updateProfile({
+          name: document.getElementById('profName').value.trim(),
+          phone: document.getElementById('profPhone').value.trim()
+        });
+      });
+
+      // Render Orders history
+      function renderOrdersHistory() {
+        const ordersBox = document.getElementById('orders-list-container');
+        const orders = window.CheckoutManager.getUserOrders(user.email);
+
+        if (orders.length === 0) {
+          window.UiManager.renderEmptyState(ordersBox, "You haven't placed any orders yet. Once you complete a purchase, your receipt logs will appear here.", "fa-box-open");
+          return;
+        }
+
+        let html = "";
+        orders.forEach(order => {
+          // Compute summary items breakdown
+          const itemsHtml = order.items.map(item => `
+            <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
+              <div class="small">
+                <strong>${item.title}</strong>
+                <span class="d-block text-muted" style="font-size: 0.75rem;">Qty: ${item.quantity} | Brand: ${item.brand}</span>
+              </div>
+              <span class="fw-bold small text-dark">$${(item.price * item.quantity)}</span>
+            </div>
+          `).join('');
+
+          html += `
+            <div class="card p-3 border border-slate-200 rounded-3 mb-3 bg-light-subtle">
+              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center border-bottom pb-2 mb-3">
+                <div>
+                  <span class="text-muted small d-block">Order Code</span>
+                  <strong class="text-primary">${order.orderNumber}</strong>
+                </div>
+                <div class="mt-2 mt-sm-0">
+                  <span class="text-muted small d-block">Purchase Date</span>
+                  <strong class="text-dark">${order.date}</strong>
+                </div>
+                <div class="mt-2 mt-sm-0">
+                  <span class="text-muted small d-block">Status</span>
+                  <span class="badge bg-primary-light text-primary">${order.status}</span>
+                </div>
+                <div class="mt-2 mt-sm-0 text-sm-end">
+                  <span class="text-muted small d-block">Total Cost</span>
+                  <strong class="text-dark fs-6">$${order.totals.total.toFixed(2)}</strong>
+                </div>
+              </div>
+              
+              <div class="row g-3">
+                <div class="col-md-7 border-end-md">
+                  <h3 class="h6 fw-bold text-muted text-uppercase mb-3">Line Items</h3>
+                  ${itemsHtml}
+                </div>
+                <div class="col-md-5">
+                  <h3 class="h6 fw-bold text-muted text-uppercase mb-2">Delivery Details</h3>
+                  <div class="small text-muted mb-3">
+                    <strong>Address:</strong><br>
+                    ${order.shippingAddress.street}<br>
+                    ${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zip}
+                  </div>
+                  <div class="small text-muted">
+                    <strong>Speed:</strong> ${order.shippingMethod}<br>
+                    <strong>Payment:</strong> ${order.paymentMethod}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        ordersBox.innerHTML = html;
+      }
+
+      // Render Saved Addresses
+      function renderAddresses() {
+        const grid = document.getElementById('dashboard-addresses-grid');
+        const u = window.AuthManager.getCurrentUser();
+        
+        if (!u.addresses || u.addresses.length === 0) {
+          grid.innerHTML = `
+            <div class="col-12">
+              <div class="alert alert-light border border-slate-200 text-center py-4 mb-0">
+                <i class="fa-solid fa-map-pin text-muted mb-2 fa-lg"></i>
+                <p class="mb-0 text-muted small">No saved addresses found. Add a shipping address to speed up checkout.</p>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        let html = "";
+        u.addresses.forEach(addr => {
+          const defaultBadge = addr.isDefault ? '<span class="badge bg-primary-light text-primary position-absolute" style="top:12px; right:12px;">Default</span>' : '';
+          html += `
+            <div class="col-md-6">
+              <div class="card p-3 border rounded-3 h-100 position-relative bg-white shadow-sm">
+                ${defaultBadge}
+                <h3 class="h6 fw-bold text-dark mb-2">${addr.title}</h3>
+                <div class="small text-muted mb-3">
+                  <span class="d-block">${addr.street}</span>
+                  <span class="d-block">${addr.city}, ${addr.state} ${addr.zip}</span>
+                  <span class="d-block">${addr.country}</span>
+                </div>
+                <div class="mt-auto d-flex gap-2">
+                  <button class="btn btn-sm btn-link text-danger border-0 p-0 text-decoration-none js-delete-addr-btn" data-id="${addr.id}"><i class="fa-solid fa-trash-can me-1"></i> Delete</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        grid.innerHTML = html;
+
+        // Wire Delete Address click
+        grid.querySelectorAll('.js-delete-addr-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            window.AuthManager.deleteAddress(id);
+            renderAddresses();
+          });
+        });
+      }
+
+      // Handle Addresses Form Add toggling
+      const addFormBlock = document.getElementById('new-address-form-block');
+      document.querySelector('.js-toggle-address-form').addEventListener('click', () => {
+        addFormBlock.style.display = 'block';
+        document.getElementById('addrId').value = "";
+        document.getElementById('form-dashboard-address').reset();
+      });
+
+      document.querySelector('.js-cancel-address-btn').addEventListener('click', () => {
+        addFormBlock.style.display = 'none';
+      });
+
+      document.getElementById('form-dashboard-address').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('addrTitle').value.trim();
+        const street = document.getElementById('addrStreet').value.trim();
+        const city = document.getElementById('addrCity').value.trim();
+        const state = document.getElementById('addrState').value.trim();
+        const zip = document.getElementById('addrZip').value.trim();
+        const isDefault = document.getElementById('addrDefaultCheckbox').checked;
+
+        if (title && street && city && state && zip) {
+          window.AuthManager.saveAddress({
+            title: title,
+            street: street,
+            city: city,
+            state: state,
+            zip: zip,
+            country: "United States",
+            isDefault: isDefault
+          });
+          addFormBlock.style.display = 'none';
+          renderAddresses();
+        }
+      });
+
+      // Render Wishlist
+      function renderWishlist() {
+        const grid = document.getElementById('wishlist-grid-container');
+        const itemsList = window.WishlistManager.getWishlist();
+
+        if (itemsList.length === 0) {
+          window.UiManager.renderEmptyState(grid, "Your wishlist is currently empty. Start adding items as you browse our tech collection!", "fa-heart-broken");
+          return;
+        }
+
+        let html = "";
+        itemsList.forEach(productId => {
+          const product = window.ProductEngine.getProductById(productId);
+          if (product) {
+            const priceHtml = product.oldPrice 
+              ? `$${product.price} <span class="old-price">$${product.oldPrice}</span>`
+              : `$${product.price}`;
+
+            html += `
+              <div class="col-6 col-md-4 col-lg-3 mb-4 js-wishlist-item" data-id="${product.id}">
+                <article class="product-card">
+                  <div class="product-img-wrapper">
+                    <button class="wishlist-btn active js-remove-wishlist-dash" data-id="${product.id}" aria-label="Remove Wishlist">
+                      <i class="fa-solid fa-heart"></i>
+                    </button>
+                    <a href="product.html?id=${product.id}">
+                      <img src="${product.image}" alt="${product.title}" loading="lazy">
+                    </a>
+                  </div>
+                  <div class="product-info">
+                    <span class="product-category">${product.category}</span>
+                    <a href="product.html?id=${product.id}"><h3 class="product-title">${product.title}</h3></a>
+                    <div class="product-footer">
+                      <span class="product-price">${priceHtml}</span>
+                      <button class="add-cart-icon-btn js-add-to-cart" data-id="${product.id}" aria-label="Add to Cart">
+                        <i class="fa-solid fa-cart-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            `;
+          }
+        });
+        grid.innerHTML = html;
+
+        // Wire Quick Remove wishlist button in dashboard
+        grid.querySelectorAll('.js-remove-wishlist-dash').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            window.WishlistManager.toggleItem(id);
+            renderWishlist(); // redraw immediately
+          });
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
