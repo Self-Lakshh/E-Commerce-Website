@@ -39,4 +39,4 @@ You can log in to the storefront immediately using the following test credential
 
 Check [ROADMAP.md](ROADMAP.md) for planned future features, and [CHANGELOG.md](CHANGELOG.md) to inspect release tags.
 
-<!-- Commit tick 117: added dev journal log for week 11 -->
+<!-- Commit tick 118: added wishlist tab inside dashboard panel -->
