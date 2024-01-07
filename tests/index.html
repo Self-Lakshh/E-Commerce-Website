@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CommerceFlow | Unit Test Runner</title>
+  <!-- Bootstrap 5.3.2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 2rem 0;
+    }
+    .test-card {
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      background: white;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .test-pass {
+      border-left: 5px solid #10b981;
+    }
+    .test-fail {
+      border-left: 5px solid #ef4444;
+      background-color: #fef2f2;
+    }
+    .test-status {
+      font-weight: bold;
+    }
+    .status-pass {
+      color: #10b981;
+    }
+    .status-fail {
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" style="max-width: 800px;">
+    
+    <header class="mb-5 text-center">
+      <i class="fa-solid fa-vials fa-3x text-primary mb-3"></i>
+      <h1 class="h2 fw-bold">CommerceFlow Test Suite</h1>
+      <p class="text-muted">Automated QA checks for State Managers & Calculation Math</p>
+    </header>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h5 mb-0">Test Executions</h2>
+      <span class="badge bg-secondary-subtle text-secondary" id="total-badge">Running...</span>
+    </div>
+
+    <!-- Results list container -->
+    <div id="test-results-list"></div>
+
+    <div class="text-center mt-5">
+      <a href="../index.html" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-angle-left me-1"></i> Back to Homepage</a>
+    </div>
+
+  </div>
+
+  <!-- Mock environment elements to prevent dependencies errors -->
+  <script>
+    // Mock UI Manager to suppress real alerts/toasts during tests
+    window.UiManager = {
+      showToast: function(msg, type) {
+        console.log(`[Mock UI Toast: ${type}] ${msg}`);
+      }
+    };
+    
+    // Clear localStorage to start with a fresh testing slate
+    localStorage.clear();
+    sessionStorage.clear();
+  </script>
+
+  <!-- Load Core scripts under test -->
+  <script src="../src/js/products.js"></script>
+  <script src="../src/js/ui.js"></script>
+  <script src="../src/js/cart.js"></script>
+  <script src="../src/js/wishlist.js"></script>
+  <script src="../src/js/auth.js"></script>
+  <script src="../src/js/checkout.js"></script>
+
+  <!-- Assertions script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const resultsContainer = document.getElementById('test-results-list');
+      const tests = [];
+      let passedCount = 0;
+      let failedCount = 0;
+
+      // Assertions Helper library
+      function assert(condition, message) {
+        if (!condition) {
+          throw new Error(message || "Assertion failed");
+        }
+      }
+
+      function test(name, fn) {
+        tests.push({ name, fn });
+      }
+
+      // ----------------------------------------------------
+      // DEFINING TESTS
+      // ----------------------------------------------------
+
+      test("ProductsEngine: Fetch Product by ID returns correct context", () => {
+        const p = window.ProductEngine.getProductById(1);
+        assert(p !== undefined, "Product ID 1 should exist");
+        assert(p.title.includes("WH-1000XM5"), "Product 1 title should match Sony Headphones");
+        assert(p.category === "Audio", "Product 1 category should be Audio");
+      });
+
+      test("ProductsEngine: Search query filters items correctly", () => {
+        const results = window.ProductEngine.queryProducts({ search: "iPhone" });
+        assert(results.length > 0, "Should find matching products for 'iPhone'");
+        assert(results.every(p => p.title.includes("iPhone")), "All results should have iPhone in title");
+      });
+
+      test("ProductsEngine: Category filters isolate products", () => {
+        const results = window.ProductEngine.queryProducts({ category: "Laptops" });
+        assert(results.length > 0, "Laptops category should return items");
+        assert(results.every(p => p.category === "Laptops"), "All items should be Laptops");
+      });
+
+      test("CartManager: Math and totals calculate correctly without discounts", () => {
+        window.CartManager.clearCart();
+        // Add ID 1 ($348)
+        window.CartManager.addItem(1, 1);
+        
+        const totals = window.CartManager.getTotals();
+        assert(totals.subtotal === 348, `Subtotal should be 348, got ${totals.subtotal}`);
+        assert(totals.shipping === 0, "Subtotal > 150 should qualify for Free Shipping");
+        // Tax = 348 * 0.1 = 34.8
+        assert(totals.tax === 34.8, `Tax should be 34.8, got ${totals.tax}`);
+        // Total = 348 + 34.8 = 382.8
+        assert(totals.total === 382.8, `Total should be 382.8, got ${totals.total}`);
+      });
+
+      test("CartManager: Promotion SAVE10 applies 10% discount", () => {
+        window.CartManager.clearCart();
+        // Add ID 2 ($229)
+        window.CartManager.addItem(2, 1);
+        
+        // Totals with coupon
+        const totals = window.CartManager.getTotals("SAVE10");
+        assert(totals.subtotal === 229, "Subtotal should be 229");
+        assert(totals.discount === 22.9, `Discount should be 10% of 229 (22.9), got ${totals.discount}`);
+        // Shipping is 0 (229 > 150)
+        // Tax is 22.9
+        // Total = 229 + 0 + 22.9 - 22.9 = 229
+        assert(totals.total === 229, `Total should be 229, got ${totals.total}`);
+      });
+
+      test("CartManager: Quantity update checks stock bounds", () => {
+        window.CartManager.clearCart();
+        // Add ID 1
+        window.CartManager.addItem(1, 1);
+        const item = window.CartManager.getCart()[0];
+        
+        // Try updating to 999 items (exceeds stock)
+        const updated = window.CartManager.updateQuantity(1, 999);
+        assert(updated === false, "Quantity update exceeding stock limits should return false");
+      });
+
+      test("WishlistManager: Toggle adds and removes item indexes", () => {
+        // Clear wishlist
+        localStorage.removeItem('cf_wishlist');
+        
+        assert(window.WishlistManager.isInWishlist(5) === false, "Item 5 should not be in wishlist initially");
+        
+        // Add
+        const added = window.WishlistManager.toggleItem(5);
+        assert(added === true, "Toggle item should return true on addition");
+        assert(window.WishlistManager.isInWishlist(5) === true, "Item 5 should be in wishlist now");
+        
+        // Remove
+        const removed = window.WishlistManager.toggleItem(5);
+        assert(removed === false, "Toggle item should return false on removal");
+        assert(window.WishlistManager.isInWishlist(5) === false, "Item 5 should be removed");
+      });
+
+      test("AuthManager: Tester account logs in with seed credentials", () => {
+        const res = window.AuthManager.login("tester@example.com", "password123");
+        assert(res.success === true, "Tester login should succeed");
+        
+        const user = window.AuthManager.getCurrentUser();
+        assert(user !== null, "Logged-in user session should be active");
+        assert(user.email === "tester@example.com", "User email should match tester");
+        
+        window.AuthManager.logout();
+        assert(window.AuthManager.getCurrentUser() === null, "Logged-out session should clear");
+      });
+
+      // ----------------------------------------------------
+      // RUNNING TESTS AND PRINTING LOG
+      // ----------------------------------------------------
+      
+      tests.forEach(t => {
+        const card = document.createElement('div');
+        card.className = "test-card p-3";
+        
+        try {
+          t.fn();
+          passedCount++;
+          card.classList.add('test-pass');
+          card.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong class="text-dark small">${t.name}</strong>
+              </div>
+              <span class="test-status status-pass small"><i class="fa-solid fa-circle-check"></i> Passed</span>
+            </div>
+          `;
+        } catch (err) {
+          failedCount++;
+          card.classList.add('test-fail');
+          card.innerHTML = `
+            <div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <strong class="text-dark small">${t.name}</strong>
+                <span class="test-status status-fail small"><i class="fa-solid fa-triangle-exclamation"></i> Failed</span>
+              </div>
+              <div class="small text-danger border-top pt-2 mt-2 font-monospace">${err.message}</div>
+            </div>
+          `;
+          console.error(err);
+        }
+        resultsContainer.appendChild(card);
+      });
+
+      // Update aggregate badge
+      const totalBadge = document.getElementById('total-badge');
+      totalBadge.textContent = `${passedCount} Passed / ${failedCount} Failed`;
+      if (failedCount > 0) {
+        totalBadge.className = "badge bg-danger-subtle text-danger";
+      } else {
+        totalBadge.className = "badge bg-success-subtle text-success";
+      }
+    });
+  </script>
+</body>
+</html>
