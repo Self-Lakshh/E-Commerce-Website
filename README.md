@@ -39,4 +39,4 @@ You can log in to the storefront immediately using the following test credential
 
 Check [ROADMAP.md](ROADMAP.md) for planned future features, and [CHANGELOG.md](CHANGELOG.md) to inspect release tags.
 
-<!-- Commit tick 129: added browser based unit test script -->
+<!-- Commit tick 130: update readme files -->
